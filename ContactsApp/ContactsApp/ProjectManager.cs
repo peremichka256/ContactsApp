@@ -14,16 +14,25 @@ namespace ContactsApp
     public static class ProjectManager
     {
         /// <summary>
+        /// Поле с путём по умолчанию для сериализации проекта
+        /// </summary>
+        public static string DefaultFilePath { get; private set; } =
+               "@c\\My Documents\\ContactsApp\\ContactsApp.txt";
+
+        /// <summary>
         /// Сохраняет объект <see cref="Project"/>
         /// </summary>
         /// <param name="project">Сохраняемый объект</param>
-        public static void SaveToFile(Project project)
+        public static void SaveToFile(Project project, string path)
         {
-            Directory.CreateDirectory(@"c:\My Documents\ContactsAppData");
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
             JsonSerializer jsonSerializer = new JsonSerializer();
 
             using (StreamWriter stream
-                = new StreamWriter(@"c:\My Documents\ContactsAppData\Contacts.txt"))
+                = new StreamWriter(path))
             using (JsonWriter writer = new JsonTextWriter(stream))
             {
                 jsonSerializer.Serialize(writer, project);
@@ -36,14 +45,18 @@ namespace ContactsApp
         /// Загружает из файла объект <see cref="Project"/>
         /// </summary>
         /// <returns>Загруженный объект <see cref="Project"/></returns>
-        public static Project LoadFromFile()
+        public static Project LoadFromFile(string path)
         {
+            if (!File.Exists(path))
+            {
+                return new Project(); 
+            }
             Project project = null;
 
             JsonSerializer jsonSerializer = new JsonSerializer();
 
             using (StreamReader stream
-                = new StreamReader(@"c:\My Documents\ContactsAppData\Contacts.txt"))
+                = new StreamReader(path))
             using (JsonReader reader = new JsonTextReader(stream))
             {
                 project = jsonSerializer.Deserialize<Project>(reader);
