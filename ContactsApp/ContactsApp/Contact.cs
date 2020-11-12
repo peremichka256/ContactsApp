@@ -32,6 +32,11 @@ namespace ContactsApp
         ///</summary>
         private DateTime _birthDate;
 
+        /// <summary>
+        /// Минимальная возможная дата ррождения контакта
+        /// </summary>
+        static public DateTime MinBirthDate = new DateTime(1900, 1, 1);
+
         ///<summary>
         /// Электронная почта
         ///</summary>
@@ -109,18 +114,7 @@ namespace ContactsApp
         /// <summary>
         /// Возвращает или задаёт номер телефона
         /// </summary>
-        public PhoneNumber PhoneNumber
-        {
-            get
-            {
-                return _phoneNumber;
-            }
-
-            set
-            {
-                _phoneNumber = value;
-            }
-        }
+        public PhoneNumber PhoneNumber { get; set; }
 
         /// <summary>
         /// Возвращает или задаёт дату рождаения, дата не больше текущей и не 
@@ -135,9 +129,7 @@ namespace ContactsApp
 
             set
             {
-                var minBirthDate = new DateTime(1900, 1, 1);
-
-                if ((value > DateTime.Now) && (value > minBirthDate))
+                if ((value > DateTime.Now) || (value < MinBirthDate))
                 {
                     throw new Exception
                         ("BirthDate should be not less than 1900 and no more current year");

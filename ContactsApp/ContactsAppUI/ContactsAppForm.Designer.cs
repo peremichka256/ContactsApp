@@ -104,7 +104,7 @@
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -125,7 +125,7 @@
             // 
             this.addToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.addToolStripMenuItem.Text = "Add Contact";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.AddContactButton_Click);
             // 
@@ -133,7 +133,7 @@
             // 
             this.editContactsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.editContactsToolStripMenuItem.Name = "editContactsToolStripMenuItem";
-            this.editContactsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editContactsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.editContactsToolStripMenuItem.Text = "Edit Contacts";
             this.editContactsToolStripMenuItem.Click += new System.EventHandler(this.EditContactButton_Click);
             // 
@@ -141,7 +141,7 @@
             // 
             this.removeContactToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.removeContactToolStripMenuItem.Name = "removeContactToolStripMenuItem";
-            this.removeContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeContactToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.removeContactToolStripMenuItem.Text = "Remove Contact";
             this.removeContactToolStripMenuItem.Click += new System.EventHandler(this.RemoveContactButton_Click);
             // 
@@ -163,7 +163,7 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.helpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
@@ -269,7 +269,7 @@
             this.contactsListBox.FormattingEnabled = true;
             this.contactsListBox.Location = new System.Drawing.Point(12, 35);
             this.contactsListBox.Name = "contactsListBox";
-            this.contactsListBox.Size = new System.Drawing.Size(212, 264);
+            this.contactsListBox.Size = new System.Drawing.Size(212, 212);
             this.contactsListBox.TabIndex = 45;
             this.contactsListBox.SelectedIndexChanged += new System.EventHandler(this.ContactsListBox_SelectedIndexChanged);
             // 
@@ -362,8 +362,10 @@
             this.iDVKTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.iDVKTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.iDVKTextBox.Location = new System.Drawing.Point(65, 142);
             this.iDVKTextBox.Name = "iDVKTextBox";
+            this.iDVKTextBox.ReadOnly = true;
             this.iDVKTextBox.Size = new System.Drawing.Size(375, 20);
             this.iDVKTextBox.TabIndex = 38;
             // 
@@ -372,8 +374,10 @@
             this.emailTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.emailTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.emailTextBox.Location = new System.Drawing.Point(65, 115);
             this.emailTextBox.Name = "emailTextBox";
+            this.emailTextBox.ReadOnly = true;
             this.emailTextBox.Size = new System.Drawing.Size(375, 20);
             this.emailTextBox.TabIndex = 37;
             // 
@@ -382,8 +386,10 @@
             this.phoneNumberTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.phoneNumberTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.phoneNumberTextBox.Location = new System.Drawing.Point(65, 89);
             this.phoneNumberTextBox.Name = "phoneNumberTextBox";
+            this.phoneNumberTextBox.ReadOnly = true;
             this.phoneNumberTextBox.Size = new System.Drawing.Size(375, 20);
             this.phoneNumberTextBox.TabIndex = 36;
             // 
@@ -402,8 +408,10 @@
             this.firstnameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.firstnameTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.firstnameTextBox.Location = new System.Drawing.Point(65, 37);
             this.firstnameTextBox.Name = "firstnameTextBox";
+            this.firstnameTextBox.ReadOnly = true;
             this.firstnameTextBox.Size = new System.Drawing.Size(375, 20);
             this.firstnameTextBox.TabIndex = 34;
             // 
@@ -412,8 +420,10 @@
             this.surnameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.surnameTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.surnameTextBox.Location = new System.Drawing.Point(65, 11);
             this.surnameTextBox.Name = "surnameTextBox";
+            this.surnameTextBox.ReadOnly = true;
             this.surnameTextBox.Size = new System.Drawing.Size(375, 20);
             this.surnameTextBox.TabIndex = 33;
             // 
@@ -463,7 +473,6 @@
         private System.Windows.Forms.TextBox iDVKTextBox;
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.TextBox phoneNumberTextBox;
-        private System.Windows.Forms.DateTimePicker birthdayDate;
         private System.Windows.Forms.TextBox firstnameTextBox;
         private System.Windows.Forms.TextBox surnameTextBox;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -475,6 +484,7 @@
         private System.Windows.Forms.ToolStripMenuItem editContactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.DateTimePicker birthdayDate;
     }
 }
 

@@ -17,7 +17,8 @@ namespace ContactsApp
         /// Поле с путём по умолчанию для сериализации проекта
         /// </summary>
         public static string DefaultFilePath { get; private set; } =
-               "@c\\My Documents\\ContactsApp\\ContactsApp.txt";
+               Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) 
+            + "\\ContactApp\\ContactApp.notes";
 
         /// <summary>
         /// Сохраняет объект <see cref="Project"/>

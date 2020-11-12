@@ -134,14 +134,14 @@ namespace ContactsAppUI
             firstnameTextBox.BackColor = Color.White;
         }
 
-        //трудно сделать у timePickerа фон другого цвета,
+        //не смог сделать у timePickerа фон другого цвета,
         //поэтому решил выкидывать диалоговое окно
         private void BithdateTimePicker_Validating(object sender, CancelEventArgs e)
         {
             var minBirthDate = new DateTime(1900, 1, 1);
 
             if ((bithdateTimePicker.Value > DateTime.Now)
-                && (bithdateTimePicker.Value > minBirthDate))
+                || (bithdateTimePicker.Value < Contact.MinBirthDate))
             {
                 MessageBox.Show("Дата выбрана неправильно",
                    "Error");

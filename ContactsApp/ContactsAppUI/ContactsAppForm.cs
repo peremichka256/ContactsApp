@@ -1,5 +1,4 @@
-﻿//TODO: баг при несуществовании Contatcs.txt
-//TODO: + в номере
+﻿//TODO: + в номере
 //TODO: тесты
 //TODO: сборка установщика
 using System;
@@ -18,7 +17,7 @@ namespace ContactsAppUI
     public partial class ContactsAppForm : Form
     {
         /// <summary>
-        /// Поле для хранения проекта во время работы
+        /// Поле для хранения контактов во время работы
         /// </summary>
         private Project _project = new Project();
 
@@ -74,11 +73,11 @@ namespace ContactsAppUI
         private void AddContactButton_Click(object sender, EventArgs e)
         {
 
-            var editContactForm = new AddEditContactForm();
+            var addContactForm = new AddEditContactForm();
 
-            if (editContactForm.ShowDialog() == DialogResult.OK)
+            if (addContactForm.ShowDialog() == DialogResult.OK)
             {
-                Contact newConatct = editContactForm.Contact;
+                var newConatct = addContactForm.Contact;
                 _project.Contacts.Add(newConatct);
                 contactsListBox.Items.Add(newConatct.Surname);
             }
@@ -99,10 +98,10 @@ namespace ContactsAppUI
                var editContactForm =
                    new AddEditContactForm(_project.Contacts[contactsListBox.SelectedIndex]);
                editContactForm.ShowDialog();
-               Contact editedConatct = editContactForm.Contact;
+               var editedConact = editContactForm.Contact;
 
-               _project.Contacts.Add(editedConatct);
-               contactsListBox.Items.Add(editedConatct.Surname);
+               _project.Contacts.Add(editedConact);
+               contactsListBox.Items.Add(editedConact.Surname);
                _project.Contacts.Remove(_project.Contacts[contactsListBox.SelectedIndex]);
                contactsListBox.Items.RemoveAt(contactsListBox.SelectedIndex);
                 ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);

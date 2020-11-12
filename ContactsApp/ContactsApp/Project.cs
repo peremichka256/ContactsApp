@@ -14,7 +14,7 @@ namespace ContactsApp
         private List<Contact> _contacts = new List<Contact>();
 
         /// <summary>
-        /// Доступ к списоку всех контактов
+        /// Доступ к списку всех контактов
         /// </summary>
         public List<Contact> Contacts
         {
