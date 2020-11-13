@@ -22,6 +22,11 @@ namespace ContactsAppUI
         /// </summary>
         private Project _project = new Project();
 
+        /// <summary>
+        /// Поле для хранения списка контактов, отображамых в левой панели
+        /// </summary>
+        private List<Contact> _usedContacts;
+
         public ContactsAppForm()
         {
             var loadProject = ProjectManager.LoadFromFile(ProjectManager.DefaultFilePath);
@@ -31,9 +36,9 @@ namespace ContactsAppUI
             if (loadProject != null)
             {
                 _project = loadProject;
-                _project.Contacts = _project.SortBySurname();
+                _usedContacts = _project.SortBySurname();
 
-                ShowListBoxItems(_project.Contacts);
+                ShowListBoxItems(_usedContacts);
                 ShowBirthdays();
             }
         }
@@ -47,13 +52,13 @@ namespace ContactsAppUI
             {
                 var selectedcontactIndex = contactsListBox.SelectedIndex;
 
-                surnameTextBox.Text = _project.Contacts[selectedcontactIndex].Surname;
-                firstnameTextBox.Text = _project.Contacts[selectedcontactIndex].Firstname;
-                birthdayDate.Value = _project.Contacts[selectedcontactIndex].BirthDate;
+                surnameTextBox.Text = _usedContacts[selectedcontactIndex].Surname;
+                firstnameTextBox.Text = _usedContacts[selectedcontactIndex].Firstname;
+                birthdayDate.Value = _usedContacts[selectedcontactIndex].BirthDate;
                 phoneNumberTextBox.Text = "+" 
-                    + _project.Contacts[selectedcontactIndex].PhoneNumber.Digits.ToString();
-                emailTextBox.Text = _project.Contacts[selectedcontactIndex].Email;
-                iDVKTextBox.Text = _project.Contacts[selectedcontactIndex].IDVK;
+                    + _usedContacts[selectedcontactIndex].PhoneNumber.Digits.ToString();
+                emailTextBox.Text = _usedContacts[selectedcontactIndex].Email;
+                iDVKTextBox.Text = _usedContacts[selectedcontactIndex].IDVK;
             }
             else
             {
@@ -79,8 +84,8 @@ namespace ContactsAppUI
                 var newConatct = addContactForm.Contact;
                 _project.Contacts.Add(newConatct);
                 contactsListBox.Items.Add(newConatct.Surname);
-                _project.Contacts = _project.SortBySurname();
-                ShowListBoxItems(_project.Contacts);
+                _usedContacts = _project.SortBySurname();
+                ShowListBoxItems(_usedContacts);
             }
         }
 
@@ -97,17 +102,17 @@ namespace ContactsAppUI
             else
             {
                var editContactForm =
-                   new AddEditContactForm(_project.Contacts[contactsListBox.SelectedIndex]);
+                   new AddEditContactForm(_usedContacts[contactsListBox.SelectedIndex]);
                editContactForm.ShowDialog();
                var editedConact = editContactForm.Contact;
 
                _project.Contacts.Add(editedConact);
                contactsListBox.Items.Add(editedConact.Surname);
-               _project.Contacts.Remove(_project.Contacts[contactsListBox.SelectedIndex]);
-               contactsListBox.Items.RemoveAt(contactsListBox.SelectedIndex);
+               _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
+               contactsListBox.Items.Remove(_usedContacts[contactsListBox.SelectedIndex].Surname);
                 ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
-                _project.Contacts = _project.SortBySurname();
-                ShowListBoxItems(_project.Contacts);
+                _usedContacts = _project.SortBySurname();
+                ShowListBoxItems(_usedContacts);
             }
         }
 
@@ -129,8 +134,9 @@ namespace ContactsAppUI
 
                 if (result == DialogResult.OK)
                 {
-                    _project.Contacts.Remove(_project.Contacts[contactsListBox.SelectedIndex]);
-                    contactsListBox.Items.RemoveAt(contactsListBox.SelectedIndex);
+                    _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
+                    contactsListBox.Items.
+                        Remove(_usedContacts[contactsListBox.SelectedIndex].Surname);
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
                 }
             }
@@ -171,9 +177,8 @@ namespace ContactsAppUI
         /// </summary>
         private void ContactSearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            var foundContacts = _project.SortBySurname(contactSearchTextBox.Text);
-            ShowListBoxItems(foundContacts);
-            //ShowListBoxItems(_project.Contacts);
+            _usedContacts = _project.SortBySurname(contactSearchTextBox.Text);
+            ShowListBoxItems(_usedContacts);
             contactsListBox.SelectedIndex = -1;
         }
 
