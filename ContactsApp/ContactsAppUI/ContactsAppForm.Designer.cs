@@ -60,12 +60,17 @@
             this.birthdayDate = new System.Windows.Forms.DateTimePicker();
             this.firstnameTextBox = new System.Windows.Forms.TextBox();
             this.surnameTextBox = new System.Windows.Forms.TextBox();
+            this.birthdayPanel = new System.Windows.Forms.Panel();
+            this.birthdayInfoPicture = new System.Windows.Forms.PictureBox();
+            this.birtdaysTextBox = new System.Windows.Forms.RichTextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.birthdayPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.birthdayInfoPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -78,7 +83,7 @@
             this.helpDropDownButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(683, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(663, 25);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -125,7 +130,7 @@
             // 
             this.addToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.addToolStripMenuItem.Text = "Add Contact";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.AddContactButton_Click);
             // 
@@ -133,7 +138,7 @@
             // 
             this.editContactsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.editContactsToolStripMenuItem.Name = "editContactsToolStripMenuItem";
-            this.editContactsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.editContactsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.editContactsToolStripMenuItem.Text = "Edit Contacts";
             this.editContactsToolStripMenuItem.Click += new System.EventHandler(this.EditContactButton_Click);
             // 
@@ -141,7 +146,8 @@
             // 
             this.removeContactToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.removeContactToolStripMenuItem.Name = "removeContactToolStripMenuItem";
-            this.removeContactToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.removeContactToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.removeContactToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.removeContactToolStripMenuItem.Text = "Remove Contact";
             this.removeContactToolStripMenuItem.Click += new System.EventHandler(this.RemoveContactButton_Click);
             // 
@@ -195,8 +201,9 @@
             this.splitContainer1.Panel2.Controls.Add(this.birthdayDate);
             this.splitContainer1.Panel2.Controls.Add(this.firstnameTextBox);
             this.splitContainer1.Panel2.Controls.Add(this.surnameTextBox);
-            this.splitContainer1.Size = new System.Drawing.Size(683, 337);
-            this.splitContainer1.SplitterDistance = 227;
+            this.splitContainer1.Panel2.Controls.Add(this.birthdayPanel);
+            this.splitContainer1.Size = new System.Drawing.Size(663, 333);
+            this.splitContainer1.SplitterDistance = 220;
             this.splitContainer1.TabIndex = 7;
             // 
             // toolStrip2
@@ -208,10 +215,10 @@
             this.addContactButton,
             this.editContactButton,
             this.removeContactButton});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 312);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 308);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip2.Size = new System.Drawing.Size(227, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(220, 25);
             this.toolStrip2.TabIndex = 48;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -258,8 +265,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.contactSearchTextBox.Location = new System.Drawing.Point(45, 9);
             this.contactSearchTextBox.Name = "contactSearchTextBox";
-            this.contactSearchTextBox.Size = new System.Drawing.Size(179, 20);
+            this.contactSearchTextBox.Size = new System.Drawing.Size(172, 20);
             this.contactSearchTextBox.TabIndex = 47;
+            this.contactSearchTextBox.TextChanged += new System.EventHandler(this.ContactSearchTextBox_TextChanged);
             // 
             // contactsListBox
             // 
@@ -269,7 +277,7 @@
             this.contactsListBox.FormattingEnabled = true;
             this.contactsListBox.Location = new System.Drawing.Point(12, 35);
             this.contactsListBox.Name = "contactsListBox";
-            this.contactsListBox.Size = new System.Drawing.Size(212, 212);
+            this.contactsListBox.Size = new System.Drawing.Size(205, 199);
             this.contactsListBox.TabIndex = 45;
             this.contactsListBox.SelectedIndexChanged += new System.EventHandler(this.ContactsListBox_SelectedIndexChanged);
             // 
@@ -366,7 +374,7 @@
             this.iDVKTextBox.Location = new System.Drawing.Point(65, 142);
             this.iDVKTextBox.Name = "iDVKTextBox";
             this.iDVKTextBox.ReadOnly = true;
-            this.iDVKTextBox.Size = new System.Drawing.Size(375, 20);
+            this.iDVKTextBox.Size = new System.Drawing.Size(362, 20);
             this.iDVKTextBox.TabIndex = 38;
             // 
             // emailTextBox
@@ -378,7 +386,7 @@
             this.emailTextBox.Location = new System.Drawing.Point(65, 115);
             this.emailTextBox.Name = "emailTextBox";
             this.emailTextBox.ReadOnly = true;
-            this.emailTextBox.Size = new System.Drawing.Size(375, 20);
+            this.emailTextBox.Size = new System.Drawing.Size(362, 20);
             this.emailTextBox.TabIndex = 37;
             // 
             // phoneNumberTextBox
@@ -390,7 +398,7 @@
             this.phoneNumberTextBox.Location = new System.Drawing.Point(65, 89);
             this.phoneNumberTextBox.Name = "phoneNumberTextBox";
             this.phoneNumberTextBox.ReadOnly = true;
-            this.phoneNumberTextBox.Size = new System.Drawing.Size(375, 20);
+            this.phoneNumberTextBox.Size = new System.Drawing.Size(362, 20);
             this.phoneNumberTextBox.TabIndex = 36;
             // 
             // birthdayDate
@@ -400,7 +408,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.birthdayDate.Location = new System.Drawing.Point(65, 63);
             this.birthdayDate.Name = "birthdayDate";
-            this.birthdayDate.Size = new System.Drawing.Size(187, 20);
+            this.birthdayDate.Size = new System.Drawing.Size(174, 20);
             this.birthdayDate.TabIndex = 35;
             // 
             // firstnameTextBox
@@ -412,7 +420,7 @@
             this.firstnameTextBox.Location = new System.Drawing.Point(65, 37);
             this.firstnameTextBox.Name = "firstnameTextBox";
             this.firstnameTextBox.ReadOnly = true;
-            this.firstnameTextBox.Size = new System.Drawing.Size(375, 20);
+            this.firstnameTextBox.Size = new System.Drawing.Size(362, 20);
             this.firstnameTextBox.TabIndex = 34;
             // 
             // surnameTextBox
@@ -424,14 +432,46 @@
             this.surnameTextBox.Location = new System.Drawing.Point(65, 11);
             this.surnameTextBox.Name = "surnameTextBox";
             this.surnameTextBox.ReadOnly = true;
-            this.surnameTextBox.Size = new System.Drawing.Size(375, 20);
+            this.surnameTextBox.Size = new System.Drawing.Size(362, 20);
             this.surnameTextBox.TabIndex = 33;
+            // 
+            // birthdayPanel
+            // 
+            this.birthdayPanel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.birthdayPanel.Controls.Add(this.birthdayInfoPicture);
+            this.birthdayPanel.Controls.Add(this.birtdaysTextBox);
+            this.birthdayPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.birthdayPanel.Location = new System.Drawing.Point(0, 258);
+            this.birthdayPanel.Name = "birthdayPanel";
+            this.birthdayPanel.Size = new System.Drawing.Size(439, 75);
+            this.birthdayPanel.TabIndex = 45;
+            // 
+            // birthdayInfoPicture
+            // 
+            this.birthdayInfoPicture.Image = ((System.Drawing.Image)(resources.GetObject("birthdayInfoPicture.Image")));
+            this.birthdayInfoPicture.Location = new System.Drawing.Point(12, 14);
+            this.birthdayInfoPicture.Name = "birthdayInfoPicture";
+            this.birthdayInfoPicture.Size = new System.Drawing.Size(47, 49);
+            this.birthdayInfoPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.birthdayInfoPicture.TabIndex = 1;
+            this.birthdayInfoPicture.TabStop = false;
+            // 
+            // birtdaysTextBox
+            // 
+            this.birtdaysTextBox.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.birtdaysTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.birtdaysTextBox.Location = new System.Drawing.Point(65, 14);
+            this.birtdaysTextBox.Name = "birtdaysTextBox";
+            this.birtdaysTextBox.ReadOnly = true;
+            this.birtdaysTextBox.Size = new System.Drawing.Size(375, 49);
+            this.birtdaysTextBox.TabIndex = 0;
+            this.birtdaysTextBox.Text = "";
             // 
             // ContactsAppForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 362);
+            this.ClientSize = new System.Drawing.Size(663, 358);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.MinimumSize = new System.Drawing.Size(200, 39);
@@ -448,6 +488,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.birthdayPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.birthdayInfoPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,6 +527,9 @@
         private System.Windows.Forms.ToolStripMenuItem removeContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.DateTimePicker birthdayDate;
+        private System.Windows.Forms.Panel birthdayPanel;
+        private System.Windows.Forms.RichTextBox birtdaysTextBox;
+        private System.Windows.Forms.PictureBox birthdayInfoPicture;
     }
 }
 

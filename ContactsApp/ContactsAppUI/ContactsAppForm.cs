@@ -1,6 +1,6 @@
-﻿//TODO: + в номере
-//TODO: тесты
-//TODO: сборка установщика
+﻿//TODO: убрать булеву слепоту
+//TODO: допилить функционал и тесты на него
+//TODO: сборщик установщика
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ContactsApp;
+
 
 namespace ContactsAppUI
 {
@@ -27,14 +28,13 @@ namespace ContactsAppUI
 
             InitializeComponent();
 
-            if (loadProject!=null)
+            if (loadProject != null)
             {
                 _project = loadProject;
+                _project.Contacts = _project.SortBySurname();
 
-                for (int i = 0; i < _project.Contacts.Count; i++)
-                {
-                    contactsListBox.Items.Add(_project.Contacts[i].Surname);
-                }
+                ShowListBoxItems(_project.Contacts);
+                ShowBirthdays();
             }
         }
 
@@ -50,9 +50,8 @@ namespace ContactsAppUI
                 surnameTextBox.Text = _project.Contacts[selectedcontactIndex].Surname;
                 firstnameTextBox.Text = _project.Contacts[selectedcontactIndex].Firstname;
                 birthdayDate.Value = _project.Contacts[selectedcontactIndex].BirthDate;
-                //TODO: добавь "+" в номере
-                phoneNumberTextBox.Text
-                    = _project.Contacts[selectedcontactIndex].PhoneNumber.Digits.ToString();
+                phoneNumberTextBox.Text = "+" 
+                    + _project.Contacts[selectedcontactIndex].PhoneNumber.Digits.ToString();
                 emailTextBox.Text = _project.Contacts[selectedcontactIndex].Email;
                 iDVKTextBox.Text = _project.Contacts[selectedcontactIndex].IDVK;
             }
@@ -80,6 +79,8 @@ namespace ContactsAppUI
                 var newConatct = addContactForm.Contact;
                 _project.Contacts.Add(newConatct);
                 contactsListBox.Items.Add(newConatct.Surname);
+                _project.Contacts = _project.SortBySurname();
+                ShowListBoxItems(_project.Contacts);
             }
         }
 
@@ -105,6 +106,8 @@ namespace ContactsAppUI
                _project.Contacts.Remove(_project.Contacts[contactsListBox.SelectedIndex]);
                contactsListBox.Items.RemoveAt(contactsListBox.SelectedIndex);
                 ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+                _project.Contacts = _project.SortBySurname();
+                ShowListBoxItems(_project.Contacts);
             }
         }
 
@@ -147,6 +150,54 @@ namespace ContactsAppUI
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Вывод контаков в левую панель
+        /// </summary>
+        /// <param name="contacts"></param>
+        private void ShowListBoxItems(List<Contact> contacts)
+        {
+            contactsListBox.Items.Clear();
+
+            for (int i = 0; i < contacts.Count; i++)
+            {
+                contactsListBox.Items.Add(contacts[i].Surname);
+            }
+        }
+
+        /// <summary>
+        /// Ввод подстроки в текстовое поле для поиска
+        /// </summary>
+        private void ContactSearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var foundContacts = _project.SortBySurname(contactSearchTextBox.Text);
+            ShowListBoxItems(foundContacts);
+            //ShowListBoxItems(_project.Contacts);
+            contactsListBox.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// Вывод информационной панели с именинниками
+        /// </summary>
+        public void ShowBirthdays()
+        {
+            var birtdays = _project.FindBirthdays(DateTime.Now);
+
+            if (birtdays.Count != 0)
+            {
+                var birthdaysString = "Сегодня празднуют свой день рождения:\n";
+
+                for (int i = 0; i < birtdays.Count; i++)
+                {
+                    birthdaysString += birtdays[i].Surname + ", ";
+                }
+                birtdaysTextBox.Text = birthdaysString.Trim();
+            }
+            else
+            {
+                birthdayPanel.Visible = false;
+            }
         }
     }
 }

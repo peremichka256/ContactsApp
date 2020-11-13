@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace ContactsApp
 {
     /// <summary>
@@ -28,8 +29,8 @@ namespace ContactsApp
 
             set
             {
-                int digitsNumber = (int)Math.Log10(value) + 1;
-                int firstDigit = (int)(value / Math.Pow(10, (int)Math.Log10(value)));
+                var digitsNumber = (int)Math.Log10(value) + 1;
+                var firstDigit = (int)(value / Math.Pow(10, (int)Math.Log10(value)));
 
                 if ((digitsNumber != 11) || (firstDigit != 7))
                 {
@@ -42,7 +43,7 @@ namespace ContactsApp
         /// <summary>
         /// Конструктор класса
         /// </summary>
-        /// <param name="digits">Номер телефона</param>
+        /// <param name="digits">Цифры номера телефона</param>
         public PhoneNumber(long digits)
         {
             this.Digits = digits;

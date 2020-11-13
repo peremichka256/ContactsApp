@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ContactsApp;
 
+
 namespace ContactsAppUI
 {
     public partial class AddEditContactForm : Form
@@ -52,9 +53,8 @@ namespace ContactsAppUI
             surnameTextBox.Text = _contact.Surname;
             firstnameTextBox.Text = _contact.Firstname;
             bithdateTimePicker.Value = _contact.BirthDate;
-            //TODO: добавь "+" в номере
-            phoneNumberTextBox.Text
-                    = _contact.PhoneNumber.Digits.ToString();
+            phoneNumberTextBox.Text = "+"
+                    + _contact.PhoneNumber.Digits.ToString();
             emailTextBox.Text = _contact.Email;
             iDVKTextBox.Text = _contact.IDVK;
         }
@@ -138,8 +138,6 @@ namespace ContactsAppUI
         //поэтому решил выкидывать диалоговое окно
         private void BithdateTimePicker_Validating(object sender, CancelEventArgs e)
         {
-            var minBirthDate = new DateTime(1900, 1, 1);
-
             if ((bithdateTimePicker.Value > DateTime.Now)
                 || (bithdateTimePicker.Value < Contact.MinBirthDate))
             {

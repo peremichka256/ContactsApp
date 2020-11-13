@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace ContactsApp
 {
     /// <summary>
@@ -48,7 +49,7 @@ namespace ContactsApp
         private string _iDVK;
 
         /// <summary>
-        /// Возвращает или задаёт фамилию, длина не больше 50, первая буква большая
+        /// Возвращает или задаёт фамилию, длина не больше 50
         /// </summary>
         public string Surname
         {
@@ -64,23 +65,12 @@ namespace ContactsApp
                     throw
                         new Exception("Length of surname shuld be less than 50 symbols");
                 }
-
-                string[] surnameString = value.Split(' ');
-
-                for (int i = 0; i < surnameString.Length; i++)
-                {
-                    if (surnameString[i].Length > 1)
-                        surnameString[i] = surnameString[i].Substring(0, 1).ToUpper()
-                            + surnameString[i].Substring(1, surnameString[i].Length - 1).ToLower();
-                    else surnameString[i] = surnameString[i].ToUpper();
-                }
-
-                _surname = string.Join("", surnameString);
+                _surname = MakesFirstLetterUppercaseOtherLowercase(value);
             }
         }
 
         /// <summary>
-        /// Возвращает или задаёт имя, длина не больше 50, первая буква большая
+        /// Возвращает или задаёт имя, длина не больше 50
         /// </summary>
         public string Firstname
         {
@@ -96,18 +86,7 @@ namespace ContactsApp
                     throw
                         new Exception("Length of first name shuld be less than 50 symbols");
                 }
-
-                string[] firstnameString = value.Split(' ');
-
-                for (int i = 0; i < firstnameString.Length; i++)
-                {
-                    if (firstnameString[i].Length > 1)
-                        firstnameString[i] = firstnameString[i].Substring(0, 1).ToUpper()
-                            + firstnameString[i].Substring(1, firstnameString[i].Length - 1).ToLower();
-                    else firstnameString[i] = firstnameString[i].ToUpper();
-                }
-
-                _firstname = string.Join("", firstnameString);
+                _firstname = MakesFirstLetterUppercaseOtherLowercase(value);
             }
         }
 
@@ -181,7 +160,7 @@ namespace ContactsApp
         }
 
         /// <summary>
-        /// 
+        /// Конструктор класса
         /// </summary>
         /// <param name="surname">Фамилия</param>
         /// <param name="firstname">Имя</param>
@@ -212,6 +191,32 @@ namespace ContactsApp
                 this._birthDate,
                 this._email,
                 this._iDVK);
+        }
+
+        /// <summary>
+        /// Метод который делают первую букву заглавной строки, а остальные строчными
+        /// </summary>
+        /// <param name="name">Строка которую необходимо преобразовать</param>
+        /// <returns>Преобразовання строка</returns>
+        private string MakesFirstLetterUppercaseOtherLowercase(string name)
+        {
+
+            var nameString = name.Split(' ');
+
+            for (int i = 0; i < nameString.Length; i++)
+            {
+                if (nameString[i].Length > 1)
+                {
+                    nameString[i] = nameString[i].Substring(0, 1).ToUpper()
+                        + nameString[i].Substring(1, nameString[i].Length - 1).ToLower();
+                }
+                else
+                {
+                    nameString[i] = nameString[i].ToUpper();
+                }
+            }
+            
+            return string.Join("", nameString);
         }
     }
 }

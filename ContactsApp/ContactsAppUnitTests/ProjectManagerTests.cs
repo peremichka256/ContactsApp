@@ -7,6 +7,7 @@ using System.IO;
 using ContactsApp;
 using NUnit.Framework;
 
+
 namespace ContactsAppUnitTests
 {
     [TestFixture]

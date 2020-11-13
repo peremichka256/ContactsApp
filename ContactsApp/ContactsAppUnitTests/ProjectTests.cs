@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ContactsApp;
 using NUnit.Framework;
 
+
 namespace ContactsAppUnitTests
 {
     [TestFixture]
@@ -51,6 +52,36 @@ namespace ContactsAppUnitTests
 
             Assert.AreEqual(expectedList, _testProject.Contacts, 
                 "Был передан неправильный список");
+        }
+
+        [Test(Description ="Негативный тест сортировки")]
+        public void TestSortBySurname()
+        {
+
+        }
+
+        [Test(Description = "Негативный тест сортировки с подстрокой")]
+        public void TestSortBySurname_LongerSubstringLength()
+        {
+
+        }
+
+        [Test(Description = "Негативный тест сортировки с подстрокой")]
+        public void TestSortBySurname_DifferentSurnameAndSubxtring()
+        {
+
+        }
+
+        [Test(Description ="Негативный тест нахожденния именниников")]
+        public void FindBirthdays_WrongMonth()
+        {
+
+        }
+
+        [Test(Description = "Негативный тест нахожденния именниников")]
+        public void FindBirthdays_WrongDay()
+        {
+
         }
     }
 }
