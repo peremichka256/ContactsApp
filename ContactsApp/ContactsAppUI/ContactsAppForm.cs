@@ -129,14 +129,15 @@ namespace ContactsAppUI
             else
             {
                 DialogResult result = MessageBox.Show("Do you really want to remove this contact: "
-                    + _project.Contacts[contactsListBox.SelectedIndex].Surname,
+                    + _usedContacts[contactsListBox.SelectedIndex].Surname,
                       "Error", MessageBoxButtons.OKCancel);
 
                 if (result == DialogResult.OK)
                 {
                     _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
+                    _usedContacts.RemoveAt(contactsListBox.SelectedIndex);
                     contactsListBox.Items.
-                        Remove(_usedContacts[contactsListBox.SelectedIndex].Surname);
+                        RemoveAt(contactsListBox.SelectedIndex);
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
                 }
             }
@@ -178,8 +179,16 @@ namespace ContactsAppUI
         private void ContactSearchTextBox_TextChanged(object sender, EventArgs e)
         {
             _usedContacts = _project.SortBySurname(contactSearchTextBox.Text);
+
+            if (_usedContacts.Count == _project.Contacts.Count)
+            {
+                _usedContacts = _project.SortBySurname();
+            }
+
             ShowListBoxItems(_usedContacts);
             contactsListBox.SelectedIndex = -1;
+
+            
         }
 
         /// <summary>
