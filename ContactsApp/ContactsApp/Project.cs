@@ -46,18 +46,18 @@ namespace ContactsApp
         /// <returns>Отсортированный список контактов с подстрокой</returns>
         public List<Contact> SortBySurname(string substring)
         {
-            var listWithSortedContacts = new List<Contact>();
+            var foundContacts = new List<Contact>();
 
             for (int i = 0; i < _contacts.Count; i++)
             {
                 if ((_contacts[i].Surname.Length >= substring.Length) 
                     && (_contacts[i].Surname.Substring(0, substring.Length) == substring))
                 {
-                    listWithSortedContacts.Add(_contacts[i]);
+                    foundContacts.Add(_contacts[i]);
                 }
             }
 
-            return listWithSortedContacts;
+            return foundContacts;
         }
 
         /// <summary>

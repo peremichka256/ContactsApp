@@ -18,7 +18,7 @@ namespace ContactsAppUI
     public partial class ContactsAppForm : Form
     {
         /// <summary>
-        /// Поле для хранения контактов во время работы
+        /// Поле для хранения всех контактов во время работы
         /// </summary>
         private Project _project = new Project();
 
@@ -84,6 +84,7 @@ namespace ContactsAppUI
                 var newConatct = addContactForm.Contact;
                 _project.Contacts.Add(newConatct);
                 contactsListBox.Items.Add(newConatct.Surname);
+
                 _usedContacts = _project.SortBySurname();
                 ShowListBoxItems(_usedContacts);
             }
@@ -110,9 +111,10 @@ namespace ContactsAppUI
                contactsListBox.Items.Add(editedConact.Surname);
                _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
                contactsListBox.Items.Remove(_usedContacts[contactsListBox.SelectedIndex].Surname);
-                ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+
                 _usedContacts = _project.SortBySurname();
                 ShowListBoxItems(_usedContacts);
+                ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
             }
         }
 
@@ -162,7 +164,7 @@ namespace ContactsAppUI
         /// <summary>
         /// Вывод контаков в левую панель
         /// </summary>
-        /// <param name="contacts"></param>
+        /// <param name="contacts">Список контактов для отображения</param>
         private void ShowListBoxItems(List<Contact> contacts)
         {
             contactsListBox.Items.Clear();
@@ -187,8 +189,6 @@ namespace ContactsAppUI
 
             ShowListBoxItems(_usedContacts);
             contactsListBox.SelectedIndex = -1;
-
-            
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace ContactsApp
         /// </summary>
         public static string DefaultFilePath { get; private set; } =
                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) 
-            + "\\ContactApp\\ContactApp.notes";
+            + "\\ContactsApp\\ContactsApp.notes";
 
         /// <summary>
         /// Сохраняет объект <see cref="Project"/>
