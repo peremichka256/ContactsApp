@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace ContactsAppUI
 {
+    //TODO: сделать ссылки работающими
     public partial class AboutForm : Form
     {
         public AboutForm()

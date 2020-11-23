@@ -15,6 +15,7 @@ using ContactsApp;
 
 namespace ContactsAppUI
 {
+    //TODO: переименовать в MainForm - это облегчает навигацию по проекту
     public partial class ContactsAppForm : Form
     {
         /// <summary>
@@ -22,6 +23,7 @@ namespace ContactsAppUI
         /// </summary>
         private Project _project = new Project();
 
+        //TODO: Почему Used? Это не "используемые контакты", а "отображаемые контакты"
         /// <summary>
         /// Поле для хранения списка контактов, отображамых в левой панели
         /// </summary>
@@ -29,10 +31,12 @@ namespace ContactsAppUI
 
         public ContactsAppForm()
         {
+            //TODO: любые действия в контсрукторе должны быть после InitializeComponent(), иначе рискуешь потерять верстку
             var loadProject = ProjectManager.LoadFromFile(ProjectManager.DefaultFilePath);
 
             InitializeComponent();
 
+            //TODO: после загрузки null не должен возвращаться ни в коем случае, только пустой проект
             if (loadProject != null)
             {
                 _project = loadProject;
@@ -51,7 +55,7 @@ namespace ContactsAppUI
             if (contactsListBox.SelectedIndex > -1)
             {
                 var selectedcontactIndex = contactsListBox.SelectedIndex;
-
+                //TODO: чтобы каждый раз не обращаться к _usedContacts, создай переменную, в которую помести контакт нужного индекса. Тогда обращение к данным станет гораздо лаконичнее и читаемее
                 surnameTextBox.Text = _usedContacts[selectedcontactIndex].Surname;
                 firstnameTextBox.Text = _usedContacts[selectedcontactIndex].Firstname;
                 birthdayDate.Value = _usedContacts[selectedcontactIndex].BirthDate;
@@ -71,16 +75,19 @@ namespace ContactsAppUI
             }
         }
 
+        //TODO: НЕЛЬЗЯ подписывать обработчики кнопки на события toolStripMenuItem! Это должны быть РАЗНЫЕ обработчики, так как им обоим приходят РАЗНЫЕ объекты в качестве sender и EventArgs e)!!!
+        //      Сделать разные обработчики, которые вызывают один и тот же общий метод!
         /// <summary>
         /// Добавляет в список новый контакт
         /// </summary>
         private void AddContactButton_Click(object sender, EventArgs e)
-        {
+        { //TODO: просто так пустых строк быть не должно
 
             var addContactForm = new AddEditContactForm();
 
             if (addContactForm.ShowDialog() == DialogResult.OK)
             {
+                //TODO: грам.ошибки
                 var newConatct = addContactForm.Contact;
                 _project.Contacts.Add(newConatct);
                 contactsListBox.Items.Add(newConatct.Surname);
@@ -101,11 +108,11 @@ namespace ContactsAppUI
                     "Error");
             }
             else
-            {
-               var editContactForm =
+            { //TODO: табуляция поплыла
+                var editContactForm =
                    new AddEditContactForm(_usedContacts[contactsListBox.SelectedIndex]);
-               editContactForm.ShowDialog();
-               var editedConact = editContactForm.Contact;
+               editContactForm.ShowDialog(); //TODO: грам. ошибки
+                var editedConact = editContactForm.Contact;
 
                _project.Contacts.Add(editedConact);
                contactsListBox.Items.Add(editedConact.Surname);
@@ -196,12 +203,16 @@ namespace ContactsAppUI
         /// </summary>
         public void ShowBirthdays()
         {
+            //TODO: грамошибки
             var birtdays = _project.FindBirthdays(DateTime.Now);
 
             if (birtdays.Count != 0)
             {
+                //TODO: вынести в константу или в ресурсы проекта
                 var birthdaysString = "Сегодня празднуют свой день рождения:\n";
 
+                //TODO: разберись со статическими методами класса string - там есть готовый метод
+                //TODO: плюс LINQ-запрос на получение списка фамилий из списка контактов
                 for (int i = 0; i < birtdays.Count; i++)
                 {
                     birthdaysString += birtdays[i].Surname + ", ";

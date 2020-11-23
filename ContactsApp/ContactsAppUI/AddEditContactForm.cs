@@ -12,6 +12,7 @@ using ContactsApp;
 
 namespace ContactsAppUI
 {
+    //TODO: не надо перечислять глаголы в названии формы. Просто ContactForm - форма, предназначенная для работы с одним контактом
     public partial class AddEditContactForm : Form
     {
         /// <summary>
@@ -19,6 +20,8 @@ namespace ContactsAppUI
         /// </summary>
         private Contact _contact;
 
+        //TODO: xml
+        //TODO: автосвойство?
         public Contact Contact
         {
             get
@@ -40,6 +43,7 @@ namespace ContactsAppUI
             InitializeComponent();
         }
 
+        //TODO: Нет! Конструктор должен быть один и без параметра. А взаимодействие с формой осуществляется только через свойство Contact
         /// <summary>
         /// Конструктор при изменении существуюшего контакта
         /// </summary>
@@ -92,10 +96,12 @@ namespace ContactsAppUI
         {
             try
             {
+                //TODO: что за создание телефонного номера в никуда?
                 new PhoneNumber(long.Parse(phoneNumberTextBox.Text));
             }
             catch (Exception)
             {
+                //TODO: так как стили на ошибку везде задаются одинаковые, вынеси это в отдельный метод. Аналогично со стилями 
                 phoneNumberTextBox.BackColor = Color.LightSalmon;
                 e.Cancel = true;
             }

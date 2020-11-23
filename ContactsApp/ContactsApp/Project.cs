@@ -19,6 +19,7 @@ namespace ContactsApp
         /// </summary>
         public List<Contact> Contacts
         {
+            //TODO: сначала get, потом set
             set
             {
                 _contacts = value;

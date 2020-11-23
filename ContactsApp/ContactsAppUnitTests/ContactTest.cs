@@ -9,11 +9,13 @@ using NUnit.Framework;
 
 namespace ContactsAppUnitTests
 {
+    //TODO: неправильное именование класса
     [TestFixture]
     public class ContactTest
     {
         private Contact _testContact;
 
+        //TODO: не надо работать через поле - тогда тесты могут быть зависимы друг от друга. Сделай просто возвращаемое значение
         public void InitTestContact()
         {
             _testContact = new Contact(
@@ -85,6 +87,7 @@ namespace ContactsAppUnitTests
             "Возникает, если длина больше 15 символов");
         }
 
+        //TODO: а где тесты конструктора с неправильными значениями?
         [Test(Description = "Позитивный тест конструктор Contact")]
         public void TestContactConstructor_CorrectValues()
         {
@@ -104,6 +107,7 @@ namespace ContactsAppUnitTests
             _testContact.IDVK = expectedIDVK;
 
             var actualSurname = _testContact.Surname;
+            //TODO: если в тесте больше одного Assert, тогда их надо объединять через Assert.Multiple()
             Assert.AreEqual(expectedSurname, actualSurname,
                 "Неверное присвоение фамилии");
             var actualFirstName = _testContact.Firstname;
@@ -124,12 +128,14 @@ namespace ContactsAppUnitTests
 
         }
 
+        //TODO: именование
         [Test(Description = "Позитивный тест метода копирования")]
         public void TestContacClone_Object()
         {
             InitTestContact();
 
             Contact cloneContact = (Contact)_testContact.Clone();
+            //TODO: ты проверяешь равенство объектов только по ссылке, а надо проверять и правильность скопированных данных
             Assert.AreNotSame(cloneContact, _testContact, "Элемент не скопирован");
         }
     }

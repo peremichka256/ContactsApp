@@ -14,6 +14,7 @@ namespace ContactsAppUnitTests
     {
         private Project _testProject;
 
+        //TODO: у тебя здесь создается тестовый проект. В тестах менеджера тоже нужен тестовый проект - сделай так, чтобы тестовый проект использовался в обоих классах.
         public void InitProject()
         {
             _testProject = new Project();
