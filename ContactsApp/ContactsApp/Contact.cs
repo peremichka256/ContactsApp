@@ -180,6 +180,19 @@ namespace ContactsApp
         }
 
         /// <summary>
+        /// Конструктор объекта с незавполненными полями по умолчанию
+        /// </summary>
+        public Contact()
+        {
+            _surname = "";
+            _firstname = "";
+            _phoneNumber = null;
+            _birthDate = DateTime.Now;
+            _email = "";
+            _iDVK = "";
+        }
+
+        /// <summary>
         /// Реализация интерфейса IClone
         /// </summary>
         /// <returns>Возвращает новый объект-копию текущего объекта</returns>
@@ -187,7 +200,7 @@ namespace ContactsApp
         {
             return new Contact(this._surname,
                 this._firstname,
-                this._phoneNumber,
+                this.PhoneNumber,
                 this._birthDate,
                 this._email,
                 this._iDVK);

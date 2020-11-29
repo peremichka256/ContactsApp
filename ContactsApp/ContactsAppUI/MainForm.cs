@@ -1,7 +1,4 @@
-﻿//TODO: убрать булеву слепоту
-//TODO: допилить функционал и тесты на него
-//TODO: сборщик установщика
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,8 +13,9 @@ using ContactsApp;
 namespace ContactsAppUI
 {
     //TODO: переименовать в MainForm - это облегчает навигацию по проекту
-    public partial class ContactsAppForm : Form
+    public partial class MainForm : Form
     {
+        const string birthdaysStringStart = "Сегодня празднуют свой день рождения:\n";
         /// <summary>
         /// Поле для хранения всех контактов во время работы
         /// </summary>
@@ -27,24 +25,23 @@ namespace ContactsAppUI
         /// <summary>
         /// Поле для хранения списка контактов, отображамых в левой панели
         /// </summary>
-        private List<Contact> _usedContacts;
+        private List<Contact> _displayedContacts;
 
-        public ContactsAppForm()
+        public MainForm()
         {
             //TODO: любые действия в контсрукторе должны быть после InitializeComponent(), иначе рискуешь потерять верстку
+            InitializeComponent();
+            contactDisplay1.IsReadOnly = true;
             var loadProject = ProjectManager.LoadFromFile(ProjectManager.DefaultFilePath);
 
-            InitializeComponent();
-
             //TODO: после загрузки null не должен возвращаться ни в коем случае, только пустой проект
-            if (loadProject != null)
+            if (loadProject.Contacts.Count > 0)
             {
                 _project = loadProject;
-                _usedContacts = _project.SortBySurname();
-
-                ShowListBoxItems(_usedContacts);
-                ShowBirthdays();
+                _displayedContacts = _project.SortBySurname();
+                ShowListBoxItems(_displayedContacts);
             }
+            ShowBirthdays();
         }
 
         /// <summary>
@@ -52,55 +49,67 @@ namespace ContactsAppUI
         /// </summary>
         private void ContactsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (contactsListBox.SelectedIndex > -1)
+            if (contactsListBox.SelectedIndex != -1)
             {
-                var selectedcontactIndex = contactsListBox.SelectedIndex;
-                //TODO: чтобы каждый раз не обращаться к _usedContacts, создай переменную, в которую помести контакт нужного индекса. Тогда обращение к данным станет гораздо лаконичнее и читаемее
-                surnameTextBox.Text = _usedContacts[selectedcontactIndex].Surname;
-                firstnameTextBox.Text = _usedContacts[selectedcontactIndex].Firstname;
-                birthdayDate.Value = _usedContacts[selectedcontactIndex].BirthDate;
-                phoneNumberTextBox.Text = "+" 
-                    + _usedContacts[selectedcontactIndex].PhoneNumber.Digits.ToString();
-                emailTextBox.Text = _usedContacts[selectedcontactIndex].Email;
-                iDVKTextBox.Text = _usedContacts[selectedcontactIndex].IDVK;
+                var selectedContact = _displayedContacts[contactsListBox.SelectedIndex];
+                contactDisplay1.DisplayedContact = selectedContact;
             }
             else
             {
-                surnameTextBox.Text = null;
-                firstnameTextBox.Text = null;
-                birthdayDate.Value = DateTime.Now;
-                phoneNumberTextBox.Text = null;
-                emailTextBox.Text = null;
-                iDVKTextBox.Text = null;
+                contactDisplay1.DisplayedContact = null;
             }
         }
 
         //TODO: НЕЛЬЗЯ подписывать обработчики кнопки на события toolStripMenuItem! Это должны быть РАЗНЫЕ обработчики, так как им обоим приходят РАЗНЫЕ объекты в качестве sender и EventArgs e)!!!
         //      Сделать разные обработчики, которые вызывают один и тот же общий метод!
+        private void AddContactButton_Click(object sender, EventArgs e)
+        {
+            AddContact();
+        }
+
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddContact();
+        }
+
         /// <summary>
         /// Добавляет в список новый контакт
         /// </summary>
-        private void AddContactButton_Click(object sender, EventArgs e)
-        { //TODO: просто так пустых строк быть не должно
-
-            var addContactForm = new AddEditContactForm();
+        private void AddContact()
+        {
+            //TODO: просто так пустых строк быть не должно
+            var addContactForm = new ContactForm();
 
             if (addContactForm.ShowDialog() == DialogResult.OK)
             {
                 //TODO: грам.ошибки
-                var newConatct = addContactForm.Contact;
-                _project.Contacts.Add(newConatct);
-                contactsListBox.Items.Add(newConatct.Surname);
+                var newContact = addContactForm.Contact;
 
-                _usedContacts = _project.SortBySurname();
-                ShowListBoxItems(_usedContacts);
+                _project.Contacts.Add(newContact);
+                contactsListBox.Items.Add(newContact.Surname);
+
+                _displayedContacts = _project.SortBySurname();
+                ShowListBoxItems(_displayedContacts);
+                ShowBirthdays();
+                contactSearchTextBox.Clear();
+                SelectFirstContact();
             }
+        }
+
+        private void EditContactButton_Click(object sender, EventArgs e)
+        {
+            EditContact();
+        }
+
+        private void EditContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditContact();
         }
 
         /// <summary>
         /// Выполняет редактирования выбранного в списке контакта
         /// </summary>
-        private void EditContactButton_Click(object sender, EventArgs e)
+        private void EditContact()
         {
             if (contactsListBox.SelectedIndex == -1)
             {
@@ -109,26 +118,46 @@ namespace ContactsAppUI
             }
             else
             { //TODO: табуляция поплыла
-                var editContactForm =
-                   new AddEditContactForm(_usedContacts[contactsListBox.SelectedIndex]);
-               editContactForm.ShowDialog(); //TODO: грам. ошибки
-                var editedConact = editContactForm.Contact;
+                var selectedContact = _displayedContacts[contactsListBox.SelectedIndex];
+                ContactForm editContactForm = new ContactForm
+                {
+                    Contact = selectedContact
+                };
+                editContactForm.ShowDialog(); //TODO: грам. ошибки
 
-               _project.Contacts.Add(editedConact);
-               contactsListBox.Items.Add(editedConact.Surname);
-               _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
-               contactsListBox.Items.Remove(_usedContacts[contactsListBox.SelectedIndex].Surname);
+                if (editContactForm.DialogResult != DialogResult.Cancel)
+                {
+                    var editedConact = editContactForm.Contact;
 
-                _usedContacts = _project.SortBySurname();
-                ShowListBoxItems(_usedContacts);
-                ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+                    _project.Contacts.Add(editedConact);
+                    contactsListBox.Items.Add(editedConact.Surname);
+                    _project.Contacts.Remove(selectedContact);
+                    contactsListBox.Items.Remove(selectedContact.Surname);
+
+                    _displayedContacts = _project.SortBySurname();
+                    ShowListBoxItems(_displayedContacts);
+                    ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+                    ShowBirthdays();
+                    contactSearchTextBox.Clear();
+                    SelectFirstContact();
+                }
             }
+        }
+
+        private void RemoveContactButton_Click(object sender, EventArgs e)
+        {
+            RemoveContact();
+        }
+
+        private void RemoveContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveContact();
         }
 
         /// <summary>
         /// Удаляет выбранный в списке контакт
         /// </summary>
-        private void RemoveContactButton_Click(object sender, EventArgs e)
+        private void RemoveContact()
         {
             if (contactsListBox.SelectedIndex == -1)
             {
@@ -137,17 +166,21 @@ namespace ContactsAppUI
             }
             else
             {
+                var selectedContact = _displayedContacts[contactsListBox.SelectedIndex];
                 DialogResult result = MessageBox.Show("Do you really want to remove this contact: "
-                    + _usedContacts[contactsListBox.SelectedIndex].Surname,
-                      "Error", MessageBoxButtons.OKCancel);
+                    + selectedContact.Surname, "Error", MessageBoxButtons.OKCancel);
 
                 if (result == DialogResult.OK)
                 {
-                    _project.Contacts.Remove(_usedContacts[contactsListBox.SelectedIndex]);
-                    _usedContacts.RemoveAt(contactsListBox.SelectedIndex);
+                    _project.Contacts.Remove(selectedContact);
+                    _displayedContacts.RemoveAt(contactsListBox.SelectedIndex);
                     contactsListBox.Items.
                         RemoveAt(contactsListBox.SelectedIndex);
+
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+                    contactSearchTextBox.Clear();
+                    ShowBirthdays();
+                    SelectFirstContact();
                 }
             }
         }
@@ -187,15 +220,23 @@ namespace ContactsAppUI
         /// </summary>
         private void ContactSearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            _usedContacts = _project.SortBySurname(contactSearchTextBox.Text);
+            _displayedContacts = _project.SortBySurname(contactSearchTextBox.Text);
 
-            if (_usedContacts.Count == _project.Contacts.Count)
+            if (_displayedContacts.Count == _project.Contacts.Count)
             {
-                _usedContacts = _project.SortBySurname();
+                _displayedContacts = _project.SortBySurname();
             }
 
-            ShowListBoxItems(_usedContacts);
-            contactsListBox.SelectedIndex = -1;
+            ShowListBoxItems(_displayedContacts);
+            SelectFirstContact();
+        }
+
+        void SelectFirstContact()
+        {
+            if (_displayedContacts.Count > 0)
+            {
+                contactsListBox.SelectedIndex = 0;
+            }
         }
 
         /// <summary>
@@ -204,20 +245,26 @@ namespace ContactsAppUI
         public void ShowBirthdays()
         {
             //TODO: грамошибки
-            var birtdays = _project.FindBirthdays(DateTime.Now);
+            var birthdays = _project.FindBirthdays(DateTime.Now);
 
-            if (birtdays.Count != 0)
+            if (birthdays.Count != 0)
             {
                 //TODO: вынести в константу или в ресурсы проекта
-                var birthdaysString = "Сегодня празднуют свой день рождения:\n";
-
                 //TODO: разберись со статическими методами класса string - там есть готовый метод
                 //TODO: плюс LINQ-запрос на получение списка фамилий из списка контактов
-                for (int i = 0; i < birtdays.Count; i++)
+                var birthdaysSurnames = from contact in birthdays
+                                  select contact;
+                
+                string birthdaysString = null;
+
+                foreach (Contact line in birthdaysSurnames)
                 {
-                    birthdaysString += birtdays[i].Surname + ", ";
+                    birthdaysString += line.Surname.Insert(line.Surname.Length, ", ");
                 }
-                birtdaysTextBox.Text = birthdaysString.Trim();
+                
+                birthdaysString = birthdaysString.Insert(0, birthdaysStringStart);
+                char[] charsToTrim = { ',', ' ' };
+                birtdaysTextBox.Text = birthdaysString.TrimEnd(charsToTrim);
             }
             else
             {

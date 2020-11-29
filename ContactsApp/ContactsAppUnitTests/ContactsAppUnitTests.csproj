@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestProjectInitializer.cs" />
     <Compile Include="ProjectManagerTests.cs" />
     <Compile Include="ProjectTests.cs" />
     <Compile Include="PhoneNumberTests.cs" />

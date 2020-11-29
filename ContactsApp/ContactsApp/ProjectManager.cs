@@ -19,7 +19,7 @@ namespace ContactsApp
         /// </summary>
         public static string DefaultFilePath { get; private set; } =
                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) 
-            + "\\ContactsApp\\ContactsApp.notes";
+                + "\\ContactsApp\\ContactsApp.notes";
 
         /// <summary>
         /// Сохраняет объект <see cref="Project"/>
@@ -33,14 +33,11 @@ namespace ContactsApp
             }
             JsonSerializer jsonSerializer = new JsonSerializer();
 
-            using (StreamWriter stream
-                = new StreamWriter(path))
+            using (StreamWriter stream = new StreamWriter(path))
             using (JsonWriter writer = new JsonTextWriter(stream))
             {
                 jsonSerializer.Serialize(writer, project);
             }
-
-            
         }
 
         /// <summary>
@@ -57,8 +54,7 @@ namespace ContactsApp
 
             JsonSerializer jsonSerializer = new JsonSerializer();
 
-            using (StreamReader stream
-                = new StreamReader(path))
+            using (StreamReader stream = new StreamReader(path))
             using (JsonReader reader = new JsonTextReader(stream))
             {
                 project = jsonSerializer.Deserialize<Project>(reader);

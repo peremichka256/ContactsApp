@@ -10,106 +10,61 @@ using NUnit.Framework;
 namespace ContactsAppUnitTests
 {
     [TestFixture]
-    class ProjectTests
+    public class ProjectTests
     {
-        private Project _testProject;
-
         //TODO: у тебя здесь создается тестовый проект. В тестах менеджера тоже нужен тестовый проект - сделай так, чтобы тестовый проект использовался в обоих классах.
-        public void InitProject()
-        {
-            _testProject = new Project();
-
-            _testProject.Contacts.Add(new Contact(
-                "3TestSurname",
-                "TestFirstName",
-                new PhoneNumber(79998877666),
-                new DateTime(2000, 1, 1),
-                "TestEmail",
-                "TestiDVK"));
-
-            _testProject.Contacts.Add(new Contact(
-                "1TestSurname",
-                "TestFirstName",
-                new PhoneNumber(79998877667),
-                new DateTime(2000, 2, 1),
-                "TestEmail",
-                "TestiDVK"));
-
-            _testProject.Contacts.Add(new Contact(
-                "2TestSurname",
-                "TestFirstName",
-                new PhoneNumber(79998877668),
-                new DateTime(2000, 3, 1),
-                "TestEmail",
-                "TestiDVK"));
-        }
-
         [Test(Description ="Позитивный тест по передачи правильного списка")]
         public void TestProject_CorrectValue()
         {
-            InitProject();
+            var testProject = TestProjectInitializer.InitProject();
 
-            var expectedList = _testProject.Contacts;
+            var expectedList = testProject.Contacts;
 
-            Assert.AreEqual(expectedList, _testProject.Contacts, 
+            Assert.AreEqual(expectedList, testProject.Contacts, 
                 "Был передан неправильный список");
         }
 
         [Test(Description ="Позитивный тест сортировки")]
         public void TestSortBySurname()
         {
-            InitProject();
+            var testProject = TestProjectInitializer.InitProject();
+
             IEnumerable<string> expected = new[]
             {
                 "1testsurname",
                 "2testsurname",
                 "3testsurname",
             };
-            List<Contact> sortedContacts = _testProject.SortBySurname();
+            List<Contact> sortedContacts = testProject.SortBySurname();
+
             Assert.IsTrue(sortedContacts.Select(n => n.Surname).SequenceEqual(expected),
                 "Список отсортирован неверно");
         }
 
-        [Test(Description = "Негативный тест сортировки с подстрокой больше фамилии")]
-        public void TestSortBySurname_LongerSubstringLength()
+        [TestCase("1testsurnam111", Description = "Тест сортировки с подстрокой больше фамилии")]
+        [TestCase("Aaa", Description = "Тест сортировки с подстрокой отличающейся от фамилии")]
+        [Test(Description = "Негативный тест сортировки")]
+        public void TestSortBySurname_WrongSubstring(string wrongSubstring)
         {
-            InitProject();
+            var testProject = TestProjectInitializer.InitProject();
 
-            List<Contact> sortedContacts = _testProject.SortBySurname("1testsurnam111");
+            List<Contact> sortedContacts = testProject.SortBySurname(wrongSubstring);
 
             Assert.IsEmpty(sortedContacts, "Список осторирован по строке неверно");
         }
 
-        [Test(Description = "Негативный тест сортировки с подстрокой отличающейся от фамилии")]
-        public void TestSortBySurname_DifferentSurnameAndSubstring()
-        {
-            InitProject();
-
-            List<Contact> sortedContacts = _testProject.SortBySurname("Aaa");
-
-            Assert.IsEmpty(sortedContacts, "Список осторирован по строке неверно");
-        }
-
+        [TestCase(2000, 4, 1, Description = "В заданный месяц менинников быть не должно")]
+        [TestCase(2000, 1, 2, Description = "В заданный день менинников быть не должно")]
         [Test(Description ="Негативный тест нахожденния именниников")]
-        public void FindBirthdays_WrongMonth()
+        public void FindBirthdays_WrongDate(int year, int month, int day)
         {
-            InitProject();
+            var wrongDate = new DateTime(year, month, day);
+            var testProject = TestProjectInitializer.InitProject();
 
             List<Contact> birthdaysContacts = 
-                _testProject.FindBirthdays( new DateTime(2000, 4, 1));
+                testProject.FindBirthdays(wrongDate);
 
-            Assert.IsEmpty(birthdaysContacts, "В заданный месяц менинников быть не должно");
-        }
-
-        [Test(Description = "Негативный тест нахожденния именниников")]
-        public void FindBirthdays_WrongDay()
-        {
-            InitProject();
-
-            List<Contact> birthdaysContacts =
-                _testProject.FindBirthdays(new DateTime(2000, 1, 2));
-
-            Assert.IsEmpty(birthdaysContacts, "В заданный день менинников быть не должно");
+            Assert.IsEmpty(birthdaysContacts, "В заданную дату менинников быть не должно");
         }
     }
 }

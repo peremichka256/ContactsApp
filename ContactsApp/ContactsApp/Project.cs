@@ -20,14 +20,14 @@ namespace ContactsApp
         public List<Contact> Contacts
         {
             //TODO: сначала get, потом set
-            set
-            {
-                _contacts = value;
-            }
-
             get
             {
                 return _contacts;
+            }
+
+            set
+            {
+                _contacts = value;
             }
         }
 
@@ -69,13 +69,13 @@ namespace ContactsApp
         public List<Contact> FindBirthdays(DateTime birthDateTime)
         {
             var birtdayContacts = new List<Contact>();
-
-            for (int i = 0; i < _contacts.Count; i++)
+            
+            foreach (var contact in _contacts)
             {
-                if((_contacts[i].BirthDate.Month == birthDateTime.Month)
-                    && (_contacts[i].BirthDate.Day == birthDateTime.Day))
+                if((contact.BirthDate.Month == birthDateTime.Month)
+                    && (contact.BirthDate.Day == birthDateTime.Day))
                 {
-                    birtdayContacts.Add(_contacts[i]);
+                    birtdayContacts.Add(contact);
                 }
             }
 
