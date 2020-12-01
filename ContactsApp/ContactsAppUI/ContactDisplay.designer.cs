@@ -161,6 +161,7 @@
             this.bithdateTimePicker.Size = new System.Drawing.Size(180, 20);
             this.bithdateTimePicker.TabIndex = 20;
             this.bithdateTimePicker.Validating += new System.ComponentModel.CancelEventHandler(this.BithdateTimePicker_Validating);
+            this.bithdateTimePicker.Validated += new System.EventHandler(this.BithdateTimePicker_Validated);
             // 
             // firstnameTextBox
             // 

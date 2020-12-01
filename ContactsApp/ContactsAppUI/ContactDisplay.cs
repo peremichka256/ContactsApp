@@ -191,6 +191,11 @@ namespace ContactsAppUI
             }
         }
 
+        private void BithdateTimePicker_Validated(object sender, EventArgs e)
+        {
+            _displayedСontact.BirthDate = bithdateTimePicker.Value;
+        }
+
         private void EmailTextBox_Validating(object sender, CancelEventArgs e)
         {
             if ((emailTextBox.Text.Length > 50))
