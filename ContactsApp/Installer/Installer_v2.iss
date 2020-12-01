@@ -28,6 +28,7 @@ OutputBaseFilename=ContactsAppSetup
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile = {#MyAppName}.ico
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -41,8 +42,8 @@ Source: "InstallFiles\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubd
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppName}.ico" 
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppName}.ico"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppName}"; IconFilename: {app}\{#MyAppName}.ico 
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}"; IconFilename: {app}\{#MyAppName}.ico; Tasks: desktopicon
 
 [Run]
 ;Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

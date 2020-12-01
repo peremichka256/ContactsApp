@@ -265,6 +265,7 @@ namespace ContactsAppUI
                 birthdaysString = birthdaysString.Insert(0, birthdaysStringStart);
                 char[] charsToTrim = { ',', ' ' };
                 birtdaysTextBox.Text = birthdaysString.TrimEnd(charsToTrim);
+                birthdayPanel.Visible = true;
             }
             else
             {
