@@ -1,13 +1,9 @@
-﻿using System;
+﻿using ContactsApp;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ContactsApp;
 
 
 namespace ContactsAppUI
@@ -15,7 +11,11 @@ namespace ContactsAppUI
     //TODO: переименовать в MainForm - это облегчает навигацию по проекту
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Начальная фраза в панели именинников
+        /// </summary>
         const string birthdaysStringStart = "Сегодня празднуют свой день рождения:\n";
+
         /// <summary>
         /// Поле для хранения всех контактов во время работы
         /// </summary>
@@ -90,9 +90,7 @@ namespace ContactsAppUI
 
                 _displayedContacts = _project.SortBySurname();
                 ShowListBoxItems(_displayedContacts);
-                ShowBirthdays();
-                contactSearchTextBox.Clear();
-                SelectFirstContact();
+                EditFormAfterChanges();
             }
         }
 
@@ -137,9 +135,7 @@ namespace ContactsAppUI
                     _displayedContacts = _project.SortBySurname();
                     ShowListBoxItems(_displayedContacts);
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
-                    ShowBirthdays();
-                    contactSearchTextBox.Clear();
-                    SelectFirstContact();
+                    EditFormAfterChanges();
                 }
             }
         }
@@ -178,9 +174,7 @@ namespace ContactsAppUI
                         RemoveAt(contactsListBox.SelectedIndex);
 
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
-                    contactSearchTextBox.Clear();
-                    ShowBirthdays();
-                    SelectFirstContact();
+                    EditFormAfterChanges();
                 }
             }
         }
@@ -271,6 +265,13 @@ namespace ContactsAppUI
             {
                 birthdayPanel.Visible = false;
             }
+        }
+
+        void EditFormAfterChanges()
+        {
+            ShowBirthdays();
+            SelectFirstContact();
+            contactSearchTextBox.Clear();
         }
     }
 }
