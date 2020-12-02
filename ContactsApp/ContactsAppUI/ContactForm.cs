@@ -12,16 +12,14 @@ using ContactsApp;
 
 namespace ContactsAppUI
 {
-    //TODO: не надо перечислять глаголы в названии формы. Просто ContactForm - форма, предназначенная для работы с одним контактом
     public partial class ContactForm : Form
     {
+        //TODO: зачем на форме хранить контакт, если он и так хранится в контроле? Просто прокидывай контакт до контрола и также забирай обратно
         /// <summary>
         /// Поле хранящее редактируемый или создаваемый объект
         /// </summary>
         private Contact _contact;
 
-        //TODO: xml
-        //TODO: автосвойство?
         /// <summary>
         /// Возвращает/задёт редактируемый или создаваемый объект
         /// </summary>
@@ -36,7 +34,7 @@ namespace ContactsAppUI
             {
                 _contact = value;
                 if (_contact != null)
-                {
+                { //TODO: именование контакта исправить
                     contactDisplay1.DisplayedContact = _contact;
                 }
             }

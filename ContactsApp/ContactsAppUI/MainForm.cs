@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace ContactsAppUI
 {
-    //TODO: переименовать в MainForm - это облегчает навигацию по проекту
     public partial class MainForm : Form
     {
+        //TODO: именование нарушает RSDN
         /// <summary>
         /// Начальная фраза в панели именинников
         /// </summary>
@@ -21,7 +21,6 @@ namespace ContactsAppUI
         /// </summary>
         private Project _project = new Project();
 
-        //TODO: Почему Used? Это не "используемые контакты", а "отображаемые контакты"
         /// <summary>
         /// Поле для хранения списка контактов, отображамых в левой панели
         /// </summary>
@@ -29,12 +28,10 @@ namespace ContactsAppUI
 
         public MainForm()
         {
-            //TODO: любые действия в контсрукторе должны быть после InitializeComponent(), иначе рискуешь потерять верстку
             InitializeComponent();
             contactDisplay1.IsReadOnly = true;
             var loadProject = ProjectManager.LoadFromFile(ProjectManager.DefaultFilePath);
-
-            //TODO: после загрузки null не должен возвращаться ни в коем случае, только пустой проект
+            //TODO: а произойдет ли что-то страшное, если этого условия не будет, и код будет выполняться и для пустых проектов?
             if (loadProject.Contacts.Count > 0)
             {
                 _project = loadProject;
@@ -60,8 +57,6 @@ namespace ContactsAppUI
             }
         }
 
-        //TODO: НЕЛЬЗЯ подписывать обработчики кнопки на события toolStripMenuItem! Это должны быть РАЗНЫЕ обработчики, так как им обоим приходят РАЗНЫЕ объекты в качестве sender и EventArgs e)!!!
-        //      Сделать разные обработчики, которые вызывают один и тот же общий метод!
         private void AddContactButton_Click(object sender, EventArgs e)
         {
             AddContact();
@@ -77,12 +72,10 @@ namespace ContactsAppUI
         /// </summary>
         private void AddContact()
         {
-            //TODO: просто так пустых строк быть не должно
             var addContactForm = new ContactForm();
 
             if (addContactForm.ShowDialog() == DialogResult.OK)
             {
-                //TODO: грам.ошибки
                 var newContact = addContactForm.Contact;
 
                 _project.Contacts.Add(newContact);
@@ -90,7 +83,7 @@ namespace ContactsAppUI
 
                 _displayedContacts = _project.SortBySurname();
                 ShowListBoxItems(_displayedContacts);
-                EditFormAfterChanges();
+                EditFormAfterChanges(); //TODO: нет пересохранения проекта
             }
         }
 
@@ -115,16 +108,16 @@ namespace ContactsAppUI
                     "Error");
             }
             else
-            { //TODO: табуляция поплыла
+            {
                 var selectedContact = _displayedContacts[contactsListBox.SelectedIndex];
                 ContactForm editContactForm = new ContactForm
                 {
                     Contact = selectedContact
                 };
-                editContactForm.ShowDialog(); //TODO: грам. ошибки
+                editContactForm.ShowDialog();
 
                 if (editContactForm.DialogResult != DialogResult.Cancel)
-                {
+                { //TODO: еще раз!! Грамошибки
                     var editedConact = editContactForm.Contact;
 
                     _project.Contacts.Add(editedConact);
@@ -224,7 +217,7 @@ namespace ContactsAppUI
             ShowListBoxItems(_displayedContacts);
             SelectFirstContact();
         }
-
+        //TODO: модификаторы доступа надо прописывать явно
         void SelectFirstContact()
         {
             if (_displayedContacts.Count > 0)
@@ -238,14 +231,12 @@ namespace ContactsAppUI
         /// </summary>
         public void ShowBirthdays()
         {
-            //TODO: грамошибки
             var birthdays = _project.FindBirthdays(DateTime.Now);
 
             if (birthdays.Count != 0)
             {
-                //TODO: вынести в константу или в ресурсы проекта
-                //TODO: разберись со статическими методами класса string - там есть готовый метод
-                //TODO: плюс LINQ-запрос на получение списка фамилий из списка контактов
+                //TODO: неправильно сделал. LINQ запрос может сразу забирать список фамилий, а у тебя забирает список контактов. По факту бесполезный LINQ. Кроме того, LINQ запрос можно сделать еще в самой первой строке этого метода
+                //TODO: Во-вторых, смотри СТАТИЧЕСКИЕ методы класса string. TrimEnd - это не тот метод, который тебе здесь нужен. Всё можно заменить на две-три строчки кода
                 var birthdaysSurnames = from contact in birthdays
                                   select contact;
                 
@@ -267,6 +258,7 @@ namespace ContactsAppUI
             }
         }
 
+        //TODO: Update, а не Edit. Редактирования окна здесь не происходит, только обновление данных
         /// <summary>
         /// Изменяет необходимые компоненты после изменения списка контактов
         /// </summary>

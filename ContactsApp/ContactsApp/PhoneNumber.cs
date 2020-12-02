@@ -29,6 +29,7 @@ namespace ContactsApp
 
             set
             {
+                //TODO: Count, а не Number. Особенно в контексте названия класса, неправильное использование слова
                 var digitsNumber = (int)Math.Log10(value) + 1;
                 var firstDigit = (int)(value / Math.Pow(10, (int)Math.Log10(value)));
 

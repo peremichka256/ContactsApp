@@ -9,18 +9,15 @@ using NUnit.Framework;
 
 namespace ContactsAppUnitTests
 {
-    //TODO: модификатор доступа надо прописывать явно у всех классов
     [TestFixture]
     public class PhoneNumberTests
     {
-        //TODO: опять - не надо работать через поля
         public PhoneNumber InitTestPhoneNumber()
         {
             var testPhoneNumber = new PhoneNumber(71234567890);
             return testPhoneNumber;
         }
 
-        //TODO: негативные тесты сделать через TestCase
         [TestCase(81234567890,Description = "Неправильная первая цифра номера")]
         [TestCase(712345678901,Description = "Неправильное количество цифр в номере")]
         [TestCase(7123456789, Description = "Неправильное количество цифр в номере")]

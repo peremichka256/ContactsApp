@@ -23,6 +23,7 @@ namespace ContactsApp
         /// </summary>
         private string _firstname;
 
+        //TODO: не используемое поле
         /// <summary>
         /// Номер телефона
         /// </summary>
@@ -61,7 +62,7 @@ namespace ContactsApp
             set
             {
                 if (value.Length > 50)
-                {
+                { //TODO: грамошибка
                     throw
                         new Exception("Length of surname shuld be less than 50 symbols");
                 }
@@ -94,7 +95,7 @@ namespace ContactsApp
         /// Возвращает или задаёт номер телефона
         /// </summary>
         public PhoneNumber PhoneNumber { get; set; }
-
+        //TODO: грамошибка
         /// <summary>
         /// Возвращает или задаёт дату рождаения, дата не больше текущей и не 
         /// меньше 1900-го года

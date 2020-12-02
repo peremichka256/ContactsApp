@@ -12,7 +12,6 @@ namespace ContactsAppUnitTests
     [TestFixture]
     public class ProjectTests
     {
-        //TODO: у тебя здесь создается тестовый проект. В тестах менеджера тоже нужен тестовый проект - сделай так, чтобы тестовый проект использовался в обоих классах.
         [Test(Description ="Позитивный тест по передачи правильного списка")]
         public void TestProject_CorrectValue()
         {

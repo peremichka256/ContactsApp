@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using ContactsApp;
 using NUnit.Framework;
-
+//TODO: Проект должен быть в подпапке Testing, название проекта должно отделять UnitTests через точку от имени тестируемой сборки
 
 namespace ContactsAppUnitTests
 {
     //TODO: неправильное именование класса
     //А как? Просто в методичке пример так же называется, я думал правильно.
+    //TODO: в множественном числе. Test - это для названия методов, Tests - для названия классов, так как каждый класс содержит много тестов
     [TestFixture]
     public class ContactTest
     {
-        //TODO: не надо работать через поле - тогда тесты могут быть зависимы друг от друга. Сделай просто возвращаемое значение
         public Contact InitTestContact()
         {
             Contact testContact = new Contact(
@@ -87,7 +87,6 @@ namespace ContactsAppUnitTests
             "Возникает, если длина больше 15 символов");
         }
 
-        //TODO: а где тесты конструктора с неправильными значениями?
         [Test(Description = "Позитивный тест конструктор Contact")]
         public void TestContactConstructor_CorrectValues()
         {
@@ -107,7 +106,6 @@ namespace ContactsAppUnitTests
             testContact.IDVK = expectedIDVK;
 
             var actualSurname = testContact.Surname;
-            //TODO: если в тесте больше одного Assert, тогда их надо объединять через Assert.Multiple()
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(expectedSurname, actualSurname,
@@ -138,7 +136,8 @@ namespace ContactsAppUnitTests
             var testContact = InitTestContact();
 
             Contact cloneContact = (Contact)testContact.Clone();
-            //TODO: ты проверяешь равенство объектов только по ссылке, а надо проверять и правильность скопированных данных
+            //TODO: дублирование кода по проверке контактов.
+            //TODO: А вообще правильнее делать реализацию метода Equals в классе Contact, чтобы в тестах просто использовать AreEquals(expectedContact, actualContact) вместо сравнения по отдельным полям
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(cloneContact.Surname, testContact.Surname,

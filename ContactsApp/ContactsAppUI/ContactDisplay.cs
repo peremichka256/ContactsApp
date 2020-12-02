@@ -11,14 +11,16 @@ using ContactsApp;
 
 namespace ContactsAppUI
 {
+    //TODO: имя класса контрола должно в конце быть слово Control. Во-вторых, зачем здесь слово Display
     public partial class ContactDisplay : UserControl
     {
+        //TODO: просто _contact
         /// <summary>
         /// Поле хранящее редактируемый или создаваемый объект
         /// </summary>
         private Contact _displayedСontact;
 
-        //TODO: Нет! Конструктор должен быть один и без параметра. А взаимодействие с формой осуществляется только через свойство Contact
+        //TODO: просто Contact
         /// <summary>
         /// Возвращает/задёт редактируемый или создаваемый объект
         /// </summary>
@@ -45,6 +47,7 @@ namespace ContactsAppUI
                 }
                 else
                 {
+                    //TODO: у тебя конструктор контакта создает пустые строки в полях. Ты мог бы их присваивать из контакта -> избавиться от дублирования в ветках if-else
                     _displayedСontact = new Contact();
                     surnameTextBox.Text = null;
                     firstnameTextBox.Text = null;
@@ -112,7 +115,6 @@ namespace ContactsAppUI
 
         private void PhoneNumberTextBox_Validating(object sender, CancelEventArgs e)
         {
-            //TODO: что за создание телефонного номера в никуда?
             int digitsNumber = 0;
             int firstDigit = 0;
 
@@ -135,7 +137,7 @@ namespace ContactsAppUI
                      "Error");
                 e.Cancel = true;
             }
-            //TODO: так как стили на ошибку везде задаются одинаковые, вынеси это в отдельный метод. Аналогично со стилями 
+
         }
 
         private void PhoneNumberTextBox_Validated(object sender, EventArgs e)
@@ -230,6 +232,7 @@ namespace ContactsAppUI
             _displayedСontact.IDVK = iDVKTextBox.Text;
         }
 
+        //TODO: Не корректное название. Надо называть IsCorrect или (чаще) HasErrors
         public bool IsDataFilledIn()
         {
             return !((surnameTextBox.Text == "") || (firstnameTextBox.Text == "")

@@ -14,12 +14,12 @@ namespace ContactsApp
         /// </summary>
         private List<Contact> _contacts = new List<Contact>();
 
+        //TODO: автосвойство
         /// <summary>
         /// Доступ к списку всех контактов
         /// </summary>
         public List<Contact> Contacts
         {
-            //TODO: сначала get, потом set
             get
             {
                 return _contacts;
@@ -51,6 +51,7 @@ namespace ContactsApp
 
             for (int i = 0; i < _contacts.Count; i++)
             {
+                //TODO: используй Contains
                 if ((_contacts[i].Surname.Length >= substring.Length) 
                     && (_contacts[i].Surname.Substring(0, substring.Length) == substring))
                 {
