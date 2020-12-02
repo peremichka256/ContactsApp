@@ -267,7 +267,10 @@ namespace ContactsAppUI
             }
         }
 
-        void EditFormAfterChanges()
+        /// <summary>
+        /// Изменяет необходимые компоненты после изменения списка контактов
+        /// </summary>
+        private void EditFormAfterChanges()
         {
             ShowBirthdays();
             SelectFirstContact();
