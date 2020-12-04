@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            ContactsApp.Contact contact1 = new ContactsApp.Contact();
             this.CancelButton = new System.Windows.Forms.Button();
             this.OkButton = new System.Windows.Forms.Button();
-            this.contactDisplay1 = new ContactsAppUI.ContactDisplay();
+            this.contactControl = new ContactsAppUI.ContactControl();
             this.SuspendLayout();
             // 
             // CancelButton
@@ -56,24 +57,30 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // contactDisplay1
+            // contactControl1
             // 
-            this.contactDisplay1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.contactControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.contactDisplay1.DisplayedContact = null;
-            this.contactDisplay1.IsReadOnly = false;
-            this.contactDisplay1.Location = new System.Drawing.Point(0, 7);
-            this.contactDisplay1.Name = "contactDisplay1";
-            this.contactDisplay1.Size = new System.Drawing.Size(401, 158);
-            this.contactDisplay1.TabIndex = 20;
+            contact1.BirthDate = new System.DateTime(2020, 12, 3, 11, 3, 20, 720);
+            contact1.Email = "";
+            contact1.Firstname = "";
+            contact1.IDVK = "";
+            contact1.PhoneNumber = null;
+            contact1.Surname = "";
+            this.contactControl.Contact = contact1;
+            this.contactControl.IsReadOnly = false;
+            this.contactControl.Location = new System.Drawing.Point(0, 7);
+            this.contactControl.Name = "contactControl1";
+            this.contactControl.Size = new System.Drawing.Size(401, 158);
+            this.contactControl.TabIndex = 20;
             // 
             // ContactForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 201);
-            this.Controls.Add(this.contactDisplay1);
+            this.Controls.Add(this.contactControl);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.CancelButton);
             this.MinimumSize = new System.Drawing.Size(220, 240);
@@ -87,6 +94,6 @@
         #endregion
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button OkButton;
-        private ContactDisplay contactDisplay1;
+        private ContactControl contactControl;
     }
 }

@@ -12,54 +12,56 @@ using ContactsApp;
 namespace ContactsAppUI
 {
     //TODO: имя класса контрола должно в конце быть слово Control. Во-вторых, зачем здесь слово Display
-    public partial class ContactDisplay : UserControl
+    public partial class ContactControl : UserControl
     {
         //TODO: просто _contact
         /// <summary>
         /// Поле хранящее редактируемый или создаваемый объект
         /// </summary>
-        private Contact _displayedСontact;
+        private Contact _contact;
 
         //TODO: просто Contact
         /// <summary>
         /// Возвращает/задёт редактируемый или создаваемый объект
         /// </summary>
-        public Contact DisplayedContact
+        public Contact Contact
         {
             get
             {
-                return _displayedСontact;
+                return _contact;
             }
 
             set
             {
-                this._displayedСontact = value;
-
-                if (_displayedСontact != null)
+                if(value == null)
                 {
-                    surnameTextBox.Text = _displayedСontact.Surname;
-                    firstnameTextBox.Text = _displayedСontact.Firstname;
-                    bithdateTimePicker.Value = _displayedСontact.BirthDate;
-                    phoneNumberTextBox.Text = "+" 
-                        + _displayedСontact.PhoneNumber.Digits.ToString();
-                    emailTextBox.Text = _displayedСontact.Email;
-                    iDVKTextBox.Text = _displayedСontact.IDVK;
+                    _contact = new Contact();
                 }
                 else
                 {
-                    //TODO: у тебя конструктор контакта создает пустые строки в полях. Ты мог бы их присваивать из контакта -> избавиться от дублирования в ветках if-else
-                    _displayedСontact = new Contact();
-                    surnameTextBox.Text = null;
-                    firstnameTextBox.Text = null;
-                    bithdateTimePicker.Value = DateTime.Now;
-                    phoneNumberTextBox.Text = null;
-                    emailTextBox.Text = null;
-                    iDVKTextBox.Text = null;
+                    _contact = value;
                 }
+
+                surnameTextBox.Text = _contact.Surname;
+                firstnameTextBox.Text = _contact.Firstname;
+                bithdateTimePicker.Value = _contact.BirthDate;
+
+                if (_contact.PhoneNumber != null)
+                {
+                    phoneNumberTextBox.Text = "+"
+                        + _contact.PhoneNumber.Digits.ToString();
+                }
+                else
+                {
+                    phoneNumberTextBox.Text = null;
+                }
+                emailTextBox.Text = _contact.Email;
+                iDVKTextBox.Text = _contact.IDVK;
+                //TODO: у тебя конструктор контакта создает пустые строки в полях. Ты мог бы их присваивать из контакта -> избавиться от дублирования в ветках if-else
             }
         }
 
-        public ContactDisplay()
+        public ContactControl()
         {
             InitializeComponent();
         }
@@ -143,7 +145,7 @@ namespace ContactsAppUI
         private void PhoneNumberTextBox_Validated(object sender, EventArgs e)
         {
             SetValidatedStyle(phoneNumberTextBox);
-            _displayedСontact.PhoneNumber = new PhoneNumber(long.Parse(phoneNumberTextBox.Text));
+            _contact.PhoneNumber = new PhoneNumber(long.Parse(phoneNumberTextBox.Text));
         }
 
         private void SurnameTextBox_Validating(object sender, CancelEventArgs e)
@@ -160,7 +162,7 @@ namespace ContactsAppUI
         private void SurnameTextBox_Validated(object sender, EventArgs e)
         {
             SetValidatedStyle(surnameTextBox);
-            _displayedСontact.Surname = surnameTextBox.Text;
+            _contact.Surname = surnameTextBox.Text;
         }
 
         private void FirstnameTextBox_Validating(object sender, CancelEventArgs e)
@@ -177,7 +179,7 @@ namespace ContactsAppUI
         private void FirstnameTextBox_Validated(object sender, EventArgs e)
         {
             SetValidatedStyle(firstnameTextBox);
-            _displayedСontact.Firstname = firstnameTextBox.Text;
+            _contact.Firstname = firstnameTextBox.Text;
         }
 
         //не смог сделать у timePickerа фон другого цвета,
@@ -195,7 +197,7 @@ namespace ContactsAppUI
 
         private void BithdateTimePicker_Validated(object sender, EventArgs e)
         {
-            _displayedСontact.BirthDate = bithdateTimePicker.Value;
+            _contact.BirthDate = bithdateTimePicker.Value;
         }
 
         private void EmailTextBox_Validating(object sender, CancelEventArgs e)
@@ -212,7 +214,7 @@ namespace ContactsAppUI
         private void EmailTextBox_Validated(object sender, EventArgs e)
         {
             SetValidatedStyle(emailTextBox);
-            _displayedСontact.Email = emailTextBox.Text;
+            _contact.Email = emailTextBox.Text;
         }
 
         private void IDVKTextBox_Validating(object sender, CancelEventArgs e)
@@ -229,11 +231,11 @@ namespace ContactsAppUI
         private void IDVKTextBox_Validated(object sender, EventArgs e)
         {
             SetValidatedStyle(iDVKTextBox);
-            _displayedСontact.IDVK = iDVKTextBox.Text;
+            _contact.IDVK = iDVKTextBox.Text;
         }
 
         //TODO: Не корректное название. Надо называть IsCorrect или (чаще) HasErrors
-        public bool IsDataFilledIn()
+        public bool IsCorrect()
         {
             return !((surnameTextBox.Text == "") || (firstnameTextBox.Text == "")
                    || (phoneNumberTextBox.Text == ""));

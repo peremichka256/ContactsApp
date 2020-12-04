@@ -19,7 +19,7 @@ namespace ContactsApp
         /// </summary>
         public static string DefaultFilePath { get; private set; } =
                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) 
-                + "\\ContactsApp\\ContactsApp.notes"; //TODO: используй @строки
+                + @"\ContactsApp\ContactsApp.notes"; //TODO: используй @строки
 
         /// <summary>
         /// Сохраняет объект <see cref="Project"/>
@@ -46,20 +46,31 @@ namespace ContactsApp
         /// <returns>Загруженный объект <see cref="Project"/></returns>
         public static Project LoadFromFile(string path)
         {
+            Project project = new Project();
+
             if (!File.Exists(path))
             {
-                return new Project(); 
+                return project; 
             }
-            Project project = null;
 
-            JsonSerializer jsonSerializer = new JsonSerializer();
             //TODO: надо обрабатывать исключения на невозможность прочитать файл, ошибки файла и десериализации - на любую ошибку возвращать пустой проект
             using (StreamReader stream = new StreamReader(path))
-            using (JsonReader reader = new JsonTextReader(stream))
             {
-                project = jsonSerializer.Deserialize<Project>(reader);
-            }
+                string projectContent = stream.ReadLine();
+                if (string.IsNullOrEmpty(projectContent))
+                {
+                    return project;
+                }
 
+                try
+                {
+                    project = JsonConvert.DeserializeObject<Project>(projectContent);
+                }
+                catch (Newtonsoft.Json.JsonReaderException)
+                {
+                    return project;
+                }
+            }
             return project;
         }
     }

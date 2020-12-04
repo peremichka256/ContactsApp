@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            ContactsApp.Contact contact1 = new ContactsApp.Contact();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.fileDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,7 @@
             this.contactSearchTextBox = new System.Windows.Forms.TextBox();
             this.contactsListBox = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.contactDisplay1 = new ContactsAppUI.ContactDisplay();
+            this.contactControl1 = new ContactsAppUI.ContactControl();
             this.birthdayPanel = new System.Windows.Forms.Panel();
             this.birthdayInfoPicture = new System.Windows.Forms.PictureBox();
             this.birtdaysTextBox = new System.Windows.Forms.RichTextBox();
@@ -78,7 +79,6 @@
             this.fileDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.fileDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
-            this.fileDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("fileDropDownButton.Image")));
             this.fileDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.fileDropDownButton.Name = "fileDropDownButton";
             this.fileDropDownButton.ShowDropDownArrow = false;
@@ -101,7 +101,6 @@
             this.addToolStripMenuItem,
             this.editContactsToolStripMenuItem,
             this.removeContactToolStripMenuItem});
-            this.editDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("editDropDownButton.Image")));
             this.editDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.editDropDownButton.Name = "editDropDownButton";
             this.editDropDownButton.ShowDropDownArrow = false;
@@ -138,7 +137,6 @@
             this.helpDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.helpDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem});
-            this.helpDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("helpDropDownButton.Image")));
             this.helpDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.helpDropDownButton.Name = "helpDropDownButton";
             this.helpDropDownButton.ShowDropDownArrow = false;
@@ -175,7 +173,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
-            this.splitContainer1.Panel2.Controls.Add(this.contactDisplay1);
+            this.splitContainer1.Panel2.Controls.Add(this.contactControl1);
             this.splitContainer1.Panel2.Controls.Add(this.birthdayPanel);
             this.splitContainer1.Panel2MinSize = 203;
             this.splitContainer1.Size = new System.Drawing.Size(591, 305);
@@ -262,16 +260,23 @@
             this.label1.TabIndex = 46;
             this.label1.Text = "Find:";
             // 
-            // contactDisplay1
+            // contactControl1
             // 
-            this.contactDisplay1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.contactControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.contactDisplay1.IsReadOnly = false;
-            this.contactDisplay1.Location = new System.Drawing.Point(3, 3);
-            this.contactDisplay1.Name = "contactDisplay1";
-            this.contactDisplay1.Size = new System.Drawing.Size(401, 221);
-            this.contactDisplay1.TabIndex = 46;
+            contact1.BirthDate = new System.DateTime(2020, 12, 3, 10, 41, 0, 273);
+            contact1.Email = "";
+            contact1.Firstname = "";
+            contact1.IDVK = "";
+            contact1.PhoneNumber = null;
+            contact1.Surname = "";
+            this.contactControl1.Contact = contact1;
+            this.contactControl1.IsReadOnly = false;
+            this.contactControl1.Location = new System.Drawing.Point(3, 3);
+            this.contactControl1.Name = "contactControl1";
+            this.contactControl1.Size = new System.Drawing.Size(401, 221);
+            this.contactControl1.TabIndex = 46;
             // 
             // birthdayPanel
             // 
@@ -357,7 +362,7 @@
         private System.Windows.Forms.RichTextBox birtdaysTextBox;
         private System.Windows.Forms.PictureBox birthdayInfoPicture;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private ContactDisplay contactDisplay1;
+        private ContactControl contactControl1;
     }
 }
 

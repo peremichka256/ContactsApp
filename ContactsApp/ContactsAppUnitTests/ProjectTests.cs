@@ -51,19 +51,5 @@ namespace ContactsAppUnitTests
 
             Assert.IsEmpty(sortedContacts, "Список осторирован по строке неверно");
         }
-
-        [TestCase(2000, 4, 1, Description = "В заданный месяц менинников быть не должно")]
-        [TestCase(2000, 1, 2, Description = "В заданный день менинников быть не должно")]
-        [Test(Description ="Негативный тест нахожденния именниников")]
-        public void FindBirthdays_WrongDate(int year, int month, int day)
-        {
-            var wrongDate = new DateTime(year, month, day);
-            var testProject = TestProjectInitializer.InitProject();
-
-            List<Contact> birthdaysContacts = 
-                testProject.FindBirthdays(wrongDate);
-
-            Assert.IsEmpty(birthdaysContacts, "В заданную дату менинников быть не должно");
-        }
     }
 }

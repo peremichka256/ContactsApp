@@ -24,11 +24,6 @@ namespace ContactsApp
         private string _firstname;
 
         //TODO: не используемое поле
-        /// <summary>
-        /// Номер телефона
-        /// </summary>
-        private PhoneNumber _phoneNumber;
-
         ///<summary>
         /// Дата рождения
         ///</summary>
@@ -64,7 +59,7 @@ namespace ContactsApp
                 if (value.Length > 50)
                 { //TODO: грамошибка
                     throw
-                        new Exception("Length of surname shuld be less than 50 symbols");
+                        new Exception("Length of surname should be less than 50 symbols");
                 }
                 _surname = MakesFirstLetterUppercaseOtherLowercase(value);
             }
@@ -85,7 +80,7 @@ namespace ContactsApp
                 if (value.Length > 50)
                 {
                     throw
-                        new Exception("Length of first name shuld be less than 50 symbols");
+                        new Exception("Length of first name should be less than 50 symbols");
                 }
                 _firstname = MakesFirstLetterUppercaseOtherLowercase(value);
             }
@@ -97,7 +92,7 @@ namespace ContactsApp
         public PhoneNumber PhoneNumber { get; set; }
         //TODO: грамошибка
         /// <summary>
-        /// Возвращает или задаёт дату рождаения, дата не больше текущей и не 
+        /// Возвращает или задаёт дату рождения, дата не больше текущей и не 
         /// меньше 1900-го года
         /// </summary>
         public DateTime BirthDate
@@ -187,7 +182,7 @@ namespace ContactsApp
         {
             _surname = "";
             _firstname = "";
-            _phoneNumber = null;
+            PhoneNumber = null;
             _birthDate = DateTime.Now;
             _email = "";
             _iDVK = "";
@@ -231,6 +226,32 @@ namespace ContactsApp
             }
             
             return string.Join("", nameString);
+        }
+
+        /// <summary>
+        /// Переопределение метода Equals для сравнивания контактов
+        /// </summary>
+        /// <param name="obj">Объект с которым сравнивается</param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if(obj ==null)
+            {
+                return false;
+            }
+
+            Contact contact = obj as Contact;
+            if(contact as Contact == null)
+            {
+                return false;
+            }
+
+            return (this.Surname == contact.Surname)
+                && (this.Firstname == contact.Firstname)
+                && (this.BirthDate == contact.BirthDate)
+                && (this.PhoneNumber.Digits == contact.PhoneNumber.Digits)
+                && (this.Email == contact.Email)
+                && (this.IDVK == contact.IDVK);
         }
     }
 }

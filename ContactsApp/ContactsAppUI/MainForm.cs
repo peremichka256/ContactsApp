@@ -14,12 +14,12 @@ namespace ContactsAppUI
         /// <summary>
         /// Начальная фраза в панели именинников
         /// </summary>
-        const string birthdaysStringStart = "Сегодня празднуют свой день рождения:\n";
+        const string BIRTDAYS_STRING_START = "Сегодня празднуют свой день рождения:\n";
 
         /// <summary>
         /// Поле для хранения всех контактов во время работы
         /// </summary>
-        private Project _project = new Project();
+        private Project _project;
 
         /// <summary>
         /// Поле для хранения списка контактов, отображамых в левой панели
@@ -29,15 +29,12 @@ namespace ContactsAppUI
         public MainForm()
         {
             InitializeComponent();
-            contactDisplay1.IsReadOnly = true;
+            contactControl1.IsReadOnly = true;
             var loadProject = ProjectManager.LoadFromFile(ProjectManager.DefaultFilePath);
             //TODO: а произойдет ли что-то страшное, если этого условия не будет, и код будет выполняться и для пустых проектов?
-            if (loadProject.Contacts.Count > 0)
-            {
-                _project = loadProject;
-                _displayedContacts = _project.SortBySurname();
-                ShowListBoxItems(_displayedContacts);
-            }
+            _project = loadProject;
+            _displayedContacts = _project.SortBySurname();
+            ShowListBoxItems(_displayedContacts);
             ShowBirthdays();
         }
 
@@ -49,11 +46,11 @@ namespace ContactsAppUI
             if (contactsListBox.SelectedIndex != -1)
             {
                 var selectedContact = _displayedContacts[contactsListBox.SelectedIndex];
-                contactDisplay1.DisplayedContact = selectedContact;
+                contactControl1.Contact = selectedContact;
             }
             else
             {
-                contactDisplay1.DisplayedContact = null;
+                contactControl1.Contact = null;
             }
         }
 
@@ -83,7 +80,8 @@ namespace ContactsAppUI
 
                 _displayedContacts = _project.SortBySurname();
                 ShowListBoxItems(_displayedContacts);
-                EditFormAfterChanges(); //TODO: нет пересохранения проекта
+                ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
+                    UpdateFormAfterChanges(); //TODO: нет пересохранения проекта
             }
         }
 
@@ -118,17 +116,17 @@ namespace ContactsAppUI
 
                 if (editContactForm.DialogResult != DialogResult.Cancel)
                 { //TODO: еще раз!! Грамошибки
-                    var editedConact = editContactForm.Contact;
+                    var editedContact = editContactForm.Contact;
 
-                    _project.Contacts.Add(editedConact);
-                    contactsListBox.Items.Add(editedConact.Surname);
+                    _project.Contacts.Add(editedContact);
+                    contactsListBox.Items.Add(editedContact.Surname);
                     _project.Contacts.Remove(selectedContact);
                     contactsListBox.Items.Remove(selectedContact.Surname);
 
                     _displayedContacts = _project.SortBySurname();
                     ShowListBoxItems(_displayedContacts);
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
-                    EditFormAfterChanges();
+                    UpdateFormAfterChanges();
                 }
             }
         }
@@ -167,7 +165,7 @@ namespace ContactsAppUI
                         RemoveAt(contactsListBox.SelectedIndex);
 
                     ProjectManager.SaveToFile(_project, ProjectManager.DefaultFilePath);
-                    EditFormAfterChanges();
+                    UpdateFormAfterChanges();
                 }
             }
         }
@@ -218,7 +216,7 @@ namespace ContactsAppUI
             SelectFirstContact();
         }
         //TODO: модификаторы доступа надо прописывать явно
-        void SelectFirstContact()
+        private void SelectFirstContact()
         {
             if (_displayedContacts.Count > 0)
             {
@@ -231,25 +229,19 @@ namespace ContactsAppUI
         /// </summary>
         public void ShowBirthdays()
         {
-            var birthdays = _project.FindBirthdays(DateTime.Now);
+            var birthdays = from contact in _project.Contacts
+                        where (contact.BirthDate.Month == DateTime.Now.Month)
+                        && (contact.BirthDate.Day == DateTime.Now.Day)
+                        select contact;
 
-            if (birthdays.Count != 0)
+            if (birthdays.Count() != 0)
             {
                 //TODO: неправильно сделал. LINQ запрос может сразу забирать список фамилий, а у тебя забирает список контактов. По факту бесполезный LINQ. Кроме того, LINQ запрос можно сделать еще в самой первой строке этого метода
                 //TODO: Во-вторых, смотри СТАТИЧЕСКИЕ методы класса string. TrimEnd - это не тот метод, который тебе здесь нужен. Всё можно заменить на две-три строчки кода
                 var birthdaysSurnames = from contact in birthdays
-                                  select contact;
-                
-                string birthdaysString = null;
+                                  select contact.Surname;
 
-                foreach (Contact line in birthdaysSurnames)
-                {
-                    birthdaysString += line.Surname.Insert(line.Surname.Length, ", ");
-                }
-                
-                birthdaysString = birthdaysString.Insert(0, birthdaysStringStart);
-                char[] charsToTrim = { ',', ' ' };
-                birtdaysTextBox.Text = birthdaysString.TrimEnd(charsToTrim);
+                birtdaysTextBox.Text = BIRTDAYS_STRING_START + string.Join(", ", birthdaysSurnames);
                 birthdayPanel.Visible = true;
             }
             else
@@ -262,7 +254,7 @@ namespace ContactsAppUI
         /// <summary>
         /// Изменяет необходимые компоненты после изменения списка контактов
         /// </summary>
-        private void EditFormAfterChanges()
+        private void UpdateFormAfterChanges()
         {
             ShowBirthdays();
             SelectFirstContact();

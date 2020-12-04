@@ -1,6 +1,6 @@
 ﻿namespace ContactsAppUI
 {
-    partial class ContactDisplay
+    partial class ContactControl
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

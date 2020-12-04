@@ -9,27 +9,11 @@ namespace ContactsApp
 {
     public class Project
     {
-        /// <summary>
-        /// Список всех контактов, созданных в приложении
-        /// </summary>
-        private List<Contact> _contacts = new List<Contact>();
-
         //TODO: автосвойство
         /// <summary>
         /// Доступ к списку всех контактов
         /// </summary>
-        public List<Contact> Contacts
-        {
-            get
-            {
-                return _contacts;
-            }
-
-            set
-            {
-                _contacts = value;
-            }
-        }
+        public List<Contact> Contacts { get; set; }
 
         /// <summary>
         /// Сортирует список контактов по фамилиям
@@ -37,7 +21,14 @@ namespace ContactsApp
         /// <returns>Отсортированный список контактов</returns>
         public List<Contact> SortBySurname()
         {
-            return _contacts.OrderBy(contact => contact.Surname).ToList();
+            if (Contacts.Count != 0)
+            {
+                return Contacts.OrderBy(contact => contact.Surname).ToList();
+            }
+            else
+            {
+                return Contacts;
+            }
         }
 
         /// <summary>
@@ -49,38 +40,22 @@ namespace ContactsApp
         {
             var foundContacts = new List<Contact>();
 
-            for (int i = 0; i < _contacts.Count; i++)
+            for (int i = 0; i < Contacts.Count; i++)
             {
                 //TODO: используй Contains
-                if ((_contacts[i].Surname.Length >= substring.Length) 
-                    && (_contacts[i].Surname.Substring(0, substring.Length) == substring))
+                if ((Contacts[i].Surname.Length >= substring.Length) 
+                    && (Contacts[i].Surname.Contains(substring)))
                 {
-                    foundContacts.Add(_contacts[i]);
+                    foundContacts.Add(Contacts[i]);
                 }
             }
 
             return foundContacts;
         }
 
-        /// <summary>
-        /// Поиск именинников в списке всех контактов
-        /// </summary>
-        /// <param name="birthDateTime">Дата относительно которой ищется именинник</param>
-        /// <returns>Список именинников</returns>
-        public List<Contact> FindBirthdays(DateTime birthDateTime)
+        public Project()
         {
-            var birtdayContacts = new List<Contact>();
-            
-            foreach (var contact in _contacts)
-            {
-                if((contact.BirthDate.Month == birthDateTime.Month)
-                    && (contact.BirthDate.Day == birthDateTime.Day))
-                {
-                    birtdayContacts.Add(contact);
-                }
-            }
-
-            return birtdayContacts;
+            Contacts = new List<Contact>();
         }
     }
 }

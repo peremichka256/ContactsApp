@@ -10,10 +10,10 @@ using NUnit.Framework;
 namespace ContactsAppUnitTests
 {
     //TODO: неправильное именование класса
-    //А как? Просто в методичке пример так же называется, я думал правильно.
+    //Извините за то, что не умею читать
     //TODO: в множественном числе. Test - это для названия методов, Tests - для названия классов, так как каждый класс содержит много тестов
     [TestFixture]
-    public class ContactTest
+    public class ContactTests
     {
         public Contact InitTestContact()
         {
@@ -87,72 +87,33 @@ namespace ContactsAppUnitTests
             "Возникает, если длина больше 15 символов");
         }
 
-        [Test(Description = "Позитивный тест конструктор Contact")]
+        [Test(Description = "Позитивный тест конструктора Contact")]
         public void TestContactConstructor_CorrectValues()
         {
-            var testContact = InitTestContact();
+            var actualContact = InitTestContact();
+            var expectedContact = new Contact(
+                actualContact.Surname,
+                actualContact.Firstname,
+                actualContact.PhoneNumber,
+                actualContact.BirthDate,
+                actualContact.Email,
+                actualContact.IDVK
+                );
 
-            var expectedSurname = "Testsurname1";
-            testContact.Surname = expectedSurname;
-            var expectedFirstname = "Testfirstname1";
-            testContact.Firstname = expectedFirstname;
-            var expectedBirthDate = new DateTime(2000,1,1);
-            testContact.BirthDate = expectedBirthDate;
-            var expectedPhoneNumber = new PhoneNumber(79998877667);
-            testContact.PhoneNumber = expectedPhoneNumber;
-            var expectedEmail = "Testemail";
-            testContact.Email = expectedEmail;
-            var expectedIDVK = "TestiDVK";
-            testContact.IDVK = expectedIDVK;
-
-            var actualSurname = testContact.Surname;
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(expectedSurname, actualSurname,
-                "Неверное присвоение фамилии");
-                var actualFirstName = testContact.Firstname;
-                Assert.AreEqual(expectedFirstname, actualFirstName,
-                    "Неверное присвоение имени");
-                var actualBirtDate = testContact.BirthDate;
-                Assert.AreEqual(expectedBirthDate, actualBirtDate,
-                    "Неверное присвоение даты рождения");
-                var actualPhoneNumber = testContact.PhoneNumber;
-                Assert.AreEqual(expectedPhoneNumber, actualPhoneNumber,
-                    "Неверное присвоение номера телефона");
-                var actualEmail = testContact.Email;
-                Assert.AreEqual(expectedEmail, actualEmail,
-                    "Неверное присвоение электронной почты");
-                var actualIDVK = testContact.IDVK;
-                Assert.AreEqual(expectedIDVK, actualIDVK,
-                    "Неверное присвоение IDVK");
-            });
+            Assert.IsTrue(actualContact.Equals(expectedContact), "Контакт создан неправильно");
 
         }
 
         //TODO: именование
         [Test(Description = "Позитивный тест метода копирования")]
-        public void TestContactClone_Correct()
+        public void TestContactClone_CorrectValue()
         {
             var testContact = InitTestContact();
 
             Contact cloneContact = (Contact)testContact.Clone();
             //TODO: дублирование кода по проверке контактов.
             //TODO: А вообще правильнее делать реализацию метода Equals в классе Contact, чтобы в тестах просто использовать AreEquals(expectedContact, actualContact) вместо сравнения по отдельным полям
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(cloneContact.Surname, testContact.Surname,
-                    "Неверное копирование фамилии");
-                Assert.AreEqual(cloneContact.Firstname, testContact.Firstname,
-                    "Неверное копирование имени");
-                Assert.AreEqual(cloneContact.BirthDate, testContact.BirthDate,
-                    "Неверное копирование даты рождения");
-                Assert.AreEqual(cloneContact.PhoneNumber.Digits,
-                     testContact.PhoneNumber.Digits, "Неверное копирование номера телефона");
-                Assert.AreEqual(cloneContact.Email, testContact.Email,
-                    "Неверное копирование электронной почты");
-                Assert.AreEqual(cloneContact.IDVK, testContact.IDVK,
-                    "Неверное копирование IDVK");
-            });
+            Assert.IsTrue(testContact.Equals(cloneContact), "Контакт скопирован некорректно");
         }
     }
 }

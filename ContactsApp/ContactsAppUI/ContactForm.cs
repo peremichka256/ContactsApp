@@ -16,27 +16,18 @@ namespace ContactsAppUI
     {
         //TODO: зачем на форме хранить контакт, если он и так хранится в контроле? Просто прокидывай контакт до контрола и также забирай обратно
         /// <summary>
-        /// Поле хранящее редактируемый или создаваемый объект
-        /// </summary>
-        private Contact _contact;
-
-        /// <summary>
         /// Возвращает/задёт редактируемый или создаваемый объект
         /// </summary>
         public Contact Contact
         {
             get
             {
-                return _contact;
+                return contactControl.Contact;
             }
 
             set
-            {
-                _contact = value;
-                if (_contact != null)
-                { //TODO: именование контакта исправить
-                    contactDisplay1.DisplayedContact = _contact;
-                }
+            { //TODO: именование контакта исправить
+                contactControl.Contact = value;
             }
         }
 
@@ -46,19 +37,18 @@ namespace ContactsAppUI
         public ContactForm()
         {
             InitializeComponent();
-            contactDisplay1.IsReadOnly = false;
+            contactControl.IsReadOnly = false;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (!contactDisplay1.IsDataFilledIn())
+            if (!contactControl.IsCorrect())
             {
                 MessageBox.Show("Обязательные поля должны быть заполнены",
                      "Error");
             }
             else
             {
-                _contact = contactDisplay1.DisplayedContact;
                 DialogResult = DialogResult.OK;
                 this.Close();
             }
